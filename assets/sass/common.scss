@@ -1,0 +1,218 @@
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+
+// Colors.
+$black: rgb(41, 41, 41);
+$white: #f4f4f4;
+$gray: #dedede;
+$green: #bada55;
+$red: orangered;
+
+// breakpoints
+$mobile:540px;
+$tablet:720px;
+$desktop:960px;
+
+// editor sidebar z-index fix
+.edit-post-sidebar .edit-post-sidebar-header{
+    z-index: 999;
+}
+
+// fix for some theme that set a max width for the blocks
+.entry-content > .woolook{
+    max-width: 100% !important;
+}
+
+// 
+// Inspector :: Tabs
+// 
+.woolook-tabs {
+    justify-content: flex-start;
+    position: -webkit-sticky;
+    position: sticky;
+    z-index: 0;
+    top: 0;
+
+    > [role="tablist"]{
+        margin-top: 15px;
+        border-top: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+    }
+
+    > [role="tabpanel"]{
+        padding: 20px 0;
+    }
+
+    .woolook-tab{
+        background: 0 0;
+        border: none;
+        border-radius: 0;
+        cursor: pointer;
+        height: 48px;
+        padding: 3px 15px;
+        margin-left: 0;
+        font-weight: 400;
+        color: #191e23;
+        outline-offset: -1px;
+        outline: none;
+    }
+
+    .woolook-tab-active{
+        background: #f1f1f1;
+        color: black;
+    }
+}
+
+// 
+// Inspector :: Categories Control
+// 
+.woolook-categories-list{
+    background: #f1f1f1;
+}
+
+.woolook-categories-list > [role=menu] {
+    border: 1px solid #e2e4e7;
+    border-bottom: none;
+    max-height: 200px;
+    overflow-x: auto;
+    padding: 0;
+}
+
+.woolook-categories-item{
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+    padding: 12px 16px;
+    background: #fff;
+    color: #555d66;
+    outline: none;
+
+    &:hover{
+        color: #191e23;
+        background: #e1e1e1;
+        box-shadow: none;
+    }
+
+    &[data-depth="0"],
+    &[data-depth="0"]:hover{
+        border-top: 1px solid #e2e4e7 !important;
+    }
+
+    &[data-depth="1"] .woolook-categories-item-label:before{
+        content: ' -- ';
+    }
+
+    &[data-depth="2"] .woolook-categories-item-label:before{
+        content: ' ---- ';
+    }
+
+    &[data-depth="3"] .woolook-categories-item-label:before{
+        content: ' ------ ';
+    }
+
+    &[data-depth="4"] .woolook-categories-item-label:before{
+        content: ' -------- ';
+    }
+
+}
+
+// 
+// Inspector :: Layout Control
+// 
+.woolook-layout-list{
+    width: 100%;
+}
+
+.woolook-layout-item{
+    cursor: pointer;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ccc;
+
+    &:hover{
+        border-color: #ccc;
+    }
+
+    &:last-child{
+        border: none !important;
+    }
+
+    .woolook-layout-item-label{
+        display: flex;
+        margin-bottom: 8px;
+
+        svg{
+            margin: 3px;
+        }
+    }
+
+    .woolook-layout-item-img{
+        display: flex;
+        min-height: 150px;
+        width: 100%;
+        overflow: hidden;
+        background-image:  url('./img/layout-1.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: scroll;
+    }
+
+    &[data-slug="layout-1"] .woolook-layout-item-img{
+        background-image: url('./img/layout-1.jpg');
+    }
+
+    &[data-slug="layout-2"] .woolook-layout-item-img{
+        background-image: url('./img/layout-2.jpg');
+    }
+
+}
+
+// 
+// Inspector :: Background Controls
+//
+.dlb-background-controls {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .components-base-control{
+        width: 100%;
+    }
+
+}
+
+.dlb-component-upload,
+.dlb-component-color{
+    margin-bottom: 25px;
+    flex-basis: 100%;
+    width: 100%;
+}
+
+.dlb-component-color{
+    display: flex;
+    flex-direction: column;
+
+    .__indicator__{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 15px;
+
+        .__color__{
+            width: 40px;
+            height: 20px;
+            border: 2px solid #e1e1e1;
+            overflow: hidden;
+            display: inline-block;
+            margin: 0 10px;
+        }
+
+    }
+    
+}
