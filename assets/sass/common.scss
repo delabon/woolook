@@ -17,6 +17,13 @@ $mobile:540px;
 $tablet:720px;
 $desktop:960px;
 
+
+.woolook,
+.woolook *{
+    box-sizing: border-box;
+}
+
+
 // editor sidebar z-index fix
 .edit-post-sidebar .edit-post-sidebar-header{
     z-index: 999;

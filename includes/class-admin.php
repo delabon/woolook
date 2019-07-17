@@ -16,7 +16,15 @@ class Admin{
 
         $this->save_settings();
 
-        add_menu_page( 'Woolook', 'Woolook', 'level_8', 'woolook_admin_page', array( $this, 'render_admin_page' ), 'dashicons-grid-view', 200  );
+        add_menu_page( 
+            'Woolook', 
+            'Woolook', 
+            'level_8', 
+            'woolook', 
+            array( $this, 'render_admin_page' ), 
+            'dashicons-grid-view', 
+            200 
+        );
     }
 
     /**
@@ -42,7 +50,7 @@ class Admin{
         $max_width = get_option('woolook_max_width', WOOLOOK_OPTION_MAX_WIDTH );
         $font_selected = get_option('woolook_font', WOOLOOK_OPTION_FONT );
 
-        require_once __DIR__ . '/views/admin.php';
+        require_once __DIR__ . '/views/panel.php';
     }
 
     /**
@@ -50,11 +58,11 @@ class Admin{
      */
     function load_assets( $key ) {
 
-        if( $key !== 'toplevel_page_woolook_admin_page' ) return;
+        if( $key !== 'toplevel_page_woolook' ) return;
 
-        wp_enqueue_style( 'bokez-admin-page', WOOLOOK_URL . '/dist/panel.css', array(), WOOLOOK_VERSION );
+        wp_enqueue_style( 'woolook-admin-page', WOOLOOK_URL . '/dist/admin.min.css', array(), WOOLOOK_VERSION );
 
-        wp_enqueue_script( 'bokez-admin-page', WOOLOOK_URL . '/dist/panel.js', array('jquery'), WOOLOOK_VERSION, true );
+        wp_enqueue_script( 'woolook-admin-page', WOOLOOK_URL . '/dist/admin.min.js', array('jquery'), WOOLOOK_VERSION, true );
 
     }
 

@@ -14,7 +14,7 @@ register_activation_hook( str_replace( 'includes/init.php', 'plugin.php', __FILE
 });
 
 /**
- * Redirect to the Faceproof admin page on single plugin activation
+ * Redirect to the admin page on single plugin activation
  */
 add_action( 'admin_init', function () {
     
@@ -24,7 +24,7 @@ add_action( 'admin_init', function () {
     
         if( ! isset( $_GET['activate-multi'] ) ) {
 
-            wp_redirect( "admin.php?page=woolook_admin_page" );
+            wp_redirect( "admin.php?page=woolook" );
         
         }
     }
@@ -49,9 +49,7 @@ add_action( 'admin_notices', function () {
  * Add Image Sizes
  */
 add_action( 'after_setup_theme', function(){
-
 	add_image_size( 'woolook_size_layout_1', 800, 800, true );
-
 });
 
 /**
@@ -156,13 +154,13 @@ add_action( 'enqueue_block_editor_assets', function () {
  */
 add_filter( 'block_categories', function ( $categories, $post ) {
 	return array_merge(
-        $categories,
         array(
             array(
                 'slug' => 'woolook',
                 'title' => 'Woolook',
             ),
-        )
+		),
+		$categories
     );
 }, 10, 2);
 
@@ -172,8 +170,10 @@ include __DIR__ . '/class-api.php';
 include __DIR__ . '/class-ajax.php';
 include __DIR__ . '/class-admin.php';
 include __DIR__ . '/class-products.php';
+include __DIR__ . '/class-categories.php';
 include __DIR__ . '/class-category-list.php';
 include __DIR__ . '/blocks/layout-1/index.php';
+include __DIR__ . '/blocks/collection-layout-1/index.php';
 
 new Woolook\Api();
 new Woolook\Ajax();

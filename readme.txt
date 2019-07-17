@@ -1,23 +1,23 @@
-=== Woolook ===
+=== Woolook - Woocommerce Blocks | Product Grids ===
 Requires at least: 5.0
-Tested up to: 5.1
+Tested up to: 5.2
 Requires PHP: 5.4
 Stable tag: 1.0.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Tags: woocommerce block, woocommerce blocks, gutenberg, gutenberg blocks, gutenberg editor, gutenberg addon, customizable blocks
+Tags: woocommerce block, woocommerce blocks, woocommerce grid, gutenberg, gutenberg blocks, gutenberg addon, woocommerce layout
 
 Woolook is a collection of beautiful Woocommerce blocks.
 
 == Description ==
 
-Woolook is a collection of beautiful Woocommerce blocks. With it you can design your store or your client store without the need to hire a freelancer or a company. It's easy and enjoyable to work with.
+Woolook is a collection of beautiful Woocommerce blocks. It's easy and enjoyable to work with.
 
 Download now and start creating beautiful looking store with ease and without typing a single line of code.
 
 ** BLOCKS :**
 
-1. Layout One : [Demo](https://demo.delabon.com/woolook/)
+1. Layout One : [Demo](https://delabon.com/demo/woolook/)
 2. Layout Two ( coming soon ) : [Demo](#)
 2. Layout Three ( coming soon ) : [Demo](#)
 
@@ -27,18 +27,23 @@ Download now and start creating beautiful looking store with ease and without ty
 
 Boost your woocommerce sales using this social proof plugin. Woomotiv displays recent sales notifications to your visitors to make your site trustworthy.
 
-* [Faceproof - Boost Woocommerce Sales Instantly](https://codecanyon.net/item/faceproof-boost-woocommerce-sales-instantly/22835201)
+* [Faceproof - Boost Woocommerce Sales Instantly](https://www.templatemonster.com/wordpress-plugins/faceproof-wordpress-plugin-83241.html)
 
 A Woocommerce plugin that displays your product recent customers next to the Add To Cart button. Powerful Woocommerce social proof method to increase conversion rate instantly.
 
-* [Ely - Fancy Wordpress Gallery Plugin](https://codecanyon.net/item/ely-wordpress-gallery-plugin/22116166)
+* [Ely - Fancy Wordpress Gallery Plugin](https://www.templatemonster.com/wordpress-plugins/ely-gutenberg-gallery-block-wordpress-plugin-83566.html)
 
 Create awesome, elegant and perfect galleries easily in your wordpress editor.
 
-* [Check my Woocommerce plugins](https://delabon.com)
+* [Check my Woocommerce plugins](https://delabon.com/store)
 
 == Installation ==
-**Wordpress 4.9** Gutenberg plugin is required for Woolook to work. so please install **Gutenberg** and **Woolook**, and after that activate them.
+**Only Wordpress 5+**
+
+1. Upload the plugin folder using an FTP/SFTP software to your wordpress/wp-content/plugins folder.
+2. Or search for "woolook" from your Dashboard > Plugins > Add Plugin
+3. Click on "Install"
+4. Click on "Activate"	
 
 == Screenshots ==
 
@@ -46,6 +51,14 @@ Create awesome, elegant and perfect galleries easily in your wordpress editor.
 2. Layout One Backend
 
 == Changelog ==
+
+= 1.1.0 =
+
+* Feature: New collection block.
+* Feature: New hover animation for the product image.
+* Update: Admin panel.
+* Update: Updated tranlasion file.
+* Bugs: Fixed some bugs. 
 
 = 1.0.0 =
 

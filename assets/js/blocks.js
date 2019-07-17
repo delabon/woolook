@@ -9,4 +9,6 @@
  * Webpack is compiling as the input file.
  */
 
-import './blocks/layout-1/index.js';
+import './blocks/layout-1';
+import './blocks/collection-layout-1';
+

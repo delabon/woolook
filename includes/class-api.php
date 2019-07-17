@@ -50,6 +50,15 @@ class Api{
 			)
         );
         
+        register_rest_route(
+			$this->namespace,
+			'/categories',
+			array(
+				'methods'             => 'GET',
+				'callback'            => array( $this, 'get_categories' ),
+                'permission_callback' => function () { return true; /* its public */ },
+			)
+        );
     }
 
     /**
@@ -83,6 +92,24 @@ class Api{
 
 		$list = new CategoryList( $request->get_params() );
         $response = new \WP_REST_Response( $list->get_items() );
+        $response->set_status(200);
+    
+        return $response;
+    }
+
+    /**
+     * Get Categories for Collection Blocks
+     *
+     * @return \WP_REST_Response
+     */
+    public function get_categories( $request ){
+
+        if( ! class_exists('Woocommerce') ) {
+            return new \WP_Error( 'Woocommerce_Required', __( "Woocommerce Required", "woolook" ) );
+        }
+
+		$list = new Categories( $request->get_params() );
+        $response = new \WP_REST_Response( $list->get_categories() );
         $response->set_status(200);
     
         return $response;
