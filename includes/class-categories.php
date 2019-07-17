@@ -61,7 +61,8 @@ class Categories{
 		$data['count']             	= $term->count;
 		$data['slug']             	= $category['slug'];
 		$data['image']				= $this->get_category_image( $category );
-		
+		$data['permalink']			= get_term_link( $category['id'], 'product_cat' );
+
 		return $data;
 	}
 	

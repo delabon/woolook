@@ -113,6 +113,87 @@ export class Edit extends Component{
         });
     }
 
+    mobileTabControls(){
+        const {
+            attributes,
+            setAttributes,
+        } = this.props;
+
+        return (
+            <RangeControl
+                label={ __('Columns') }
+                value={ attributes.mobile_columns }
+                onChange={ ( size ) => setAttributes({ mobile_columns: size }) }
+                min={ 1 }
+                max={ attributes.tablet_columns }
+            />
+        );
+    }
+
+    tabletTabControls(){
+        const {
+            attributes,
+            setAttributes,
+        } = this.props;
+
+        return (
+            <RangeControl
+                label={ __('Columns') }
+                value={ attributes.tablet_columns }
+                onChange={ ( size ) => {
+                    setAttributes({ tablet_columns: size });
+                
+                    if( attributes.mobile_columns > size ){
+                        setAttributes({ mobile_columns: size });
+                    }
+                }}
+                min={ 1 }
+                max={ attributes.desktop_columns }
+            />
+        );
+    }
+
+    desktopTabControls(){
+        const {
+            attributes,
+            setAttributes,
+        } = this.props;
+
+        return (
+            <Fragment>
+
+                <RangeControl
+                    label={ __('Columns') }
+                    value={ attributes.desktop_columns }
+                    onChange={ ( size ) => {
+                        setAttributes({ desktop_columns: size });
+
+                        if( attributes.tablet_columns > size ){
+                            setAttributes({ tablet_columns: size });
+
+                            if( attributes.mobile_columns > size ){
+                                setAttributes({ mobile_columns: size });
+                            }
+                        }
+                    }}
+                    min={ 1 }
+                    max={ 4 }
+                />
+
+                <RangeControl
+                    label = { __('Font Size') }
+                    help = { __('This setting can change the block look.') }
+                    min = { 1 }
+                    max = { 10 }
+                    value={ attributes.font_size }
+                    onChange={ ( newValue = 4 ) => {
+                        setAttributes( { font_size: newValue } );
+                    } }
+                />
+            </Fragment>            
+        );
+    }
+
     renderCategory( category ){        
         return (
             <div 
@@ -121,8 +202,11 @@ export class Edit extends Component{
                     backgroundImage: category.image ? 'url('+category.image+')' : null,
                 }}
             >
-                <h3>{category.name}</h3>
-                <span>{category.count}</span>
+                <div className="woolook-item-details">
+                    <h3 className="woolook-item-title">{category.name}</h3>
+                    <span className="woolook-item-count">{category.count}</span>
+                </div>
+
                 <a href="#"></a>
             </div>
         )
@@ -202,6 +286,41 @@ export class Edit extends Component{
             isSelected && (
     
                 <InspectorControls key = {'inspector'} > 
+
+                    <TabPanel 
+                        className="woolook-tabs"
+                        activeClass="woolook-tab-active"
+                        onSelect={ ( tabName ) => setAttributes({ currentTab: tabName }) }
+                        tabs={ [
+                            {
+                                name: 'desktop',
+                                title: <IconDesktop/>,
+                                className: 'woolook-tab tab-1',
+                            },
+                            {
+                                name: 'tablet',
+                                title: <IconTablet/>,
+                                className: 'woolook-tab tab-2',
+                            },
+                            {
+                                name: 'mobile',
+                                title: <IconMobile/>,
+                                className: 'woolook-tab tab-3',
+                            },
+                        ] }>
+                        {
+                            ( tab ) => {
+                                if( tab.name === 'mobile' ){
+                                    return self.mobileTabControls();
+                                }
+                                else if( tab.name === 'tablet' ){
+                                    return self.tabletTabControls();
+                                }
+
+                                return self.desktopTabControls();
+                            }
+                        }
+                    </TabPanel>
 
                     <PanelBody
                         title={ __('Select Categories') }

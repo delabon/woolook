@@ -281,51 +281,40 @@ class Block_Collection_Layout_One {
     }
 
     /**
-     * Renders the products
+     * Renders the categories
      *
      * @param array $attributes
      * @return string
      */
     function renderItems( $attributes ){
 
-        $products = new Products(array(
-            'limit' => (int)$attributes['desktop_columns'],
-            'categories' => $attributes['categories'] // this will be sanitized inside the Products class
+        $categories = new Categories(array(
+            'limit' => 3,
+            'categories' => $attributes['categories']
         ));
 
-        $imagePlaceHolder = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==";
-        $btn_trans = __('Add To Cart', 'woolook');
         $rows_markup = '';
 
-        foreach( $products->get_products() as $product ){
+        foreach( $categories->get_categories() as $category ){
 
-            $title = esc_html($product['name']);
-            $permalink = esc_url( $product['permalink'] );
-            $image = "<img src='{$imagePlaceHolder}' alt='' />";
+            $title = esc_html($category['name']);
+            $permalink = esc_url( $category['permalink'] );
+            $count = esc_html($category['count']);
+            $style = "";
 
-            if( count( $product['images'] ) ) {
-                $image = "<img src='".esc_url( $product['images'][0]['src'] )."' alt='".esc_attr( $product['name'] )."' />";
+            if( $category['image'] ) {
+                $style = "background-image: url('".$category['image']."')";
             }
 
             $rows_markup .= <<<HTML
-            <div class="woolook-item">
-                
-                <div class="woolook-item-thumbnail">
-                    <a href="{$permalink}">{$image}</a>
+
+            <div class="woolook-item" style="{$style}">
+                <div class="woolook-item-details">
+                    <h3 class="woolook-item-title">{$title}</h3>
+                    <span class="woolook-item-count">{$count}</span>
                 </div>
 
-                <div class="woolook-item-reviews">{$product['reviews_html']}</div>
-
-                <h3 class="woolook-item-title">
-                    <a href="{$permalink}">{$title}</a>
-                </h3>
-
-                <div class="woolook-item-price">{$product['price_html']}</div>
-                
-                <a href="#" class="woolook-item-addtocart" data-id={$product['id']}>
-                    {$btn_trans}
-                </a>
-
+                <a href="{$permalink}"></a>
             </div>
 HTML;
 
@@ -342,7 +331,7 @@ HTML;
      */
     function render( $attributes ) {
 
-        $classes = array( "woolook", "woolook-layout-1", "woolook-d-col-".esc_attr($attributes['desktop_columns']), "woolook-t-col-".esc_attr($attributes['tablet_columns']), "woolook-m-col-".esc_attr($attributes['mobile_columns']) );
+        $classes = array( 'woolook', 'woolook-collection-one' );
         $classes = implode(' ', $classes );
         $style = $this->renderStyle( $attributes );
         $items = $this->renderItems( $attributes );
@@ -352,8 +341,6 @@ HTML;
 
         return <<<HTML
             
-            {$style}
-
             <div id="{$uid}" class="{$classes}">
 
                 <div class="woolook-container">
@@ -364,7 +351,7 @@ HTML;
 
                     </div>
 
-                    <div class="woolook-row">{$items}</div>
+                    <div class="woolook-items">{$items}</div>
                     
                 </div>
             

@@ -1,118 +1,14 @@
 @import 'editor';
 
-// extra small breakpoint
-.woolook-layout-1{
-    .woolook-item{
-        flex-basis: 100%; // overrides the editor style
-        max-width: 100%;
-    }
-
-}
 
 @media screen and ( min-width: $mobile ){
-
-    .woolook-layout-1{
-
-        &.woolook-m-col-1{
-            .woolook-item{
-                flex-basis: 100%;
-                max-width: 100%;
-            }
-        }
-
-        &.woolook-m-col-2{
-            .woolook-item{
-                flex-basis: 50%;
-                max-width: 50%;
-            }
-        }
-
-        &.woolook-m-col-3{
-            .woolook-item{
-                flex-basis: 33.3332%;
-                max-width: 33.3332%;
-            }
-        }
-
-        &.woolook-m-col-4{
-            .woolook-item{
-                flex-basis: 25%;
-                max-width: 25%;
-            }
-        }
-
-    }
 
 }
 
 @media screen and ( min-width: $tablet ){
 
-    .woolook-layout-1{
-
-        &.woolook-t-col-1{
-            .woolook-item{
-                flex-basis: 100%;
-                max-width: 100%;
-            }
-        }
-
-        &.woolook-t-col-2{
-            .woolook-item{
-                flex-basis: 50%;
-                max-width: 50%;
-            }
-        }
-
-        &.woolook-t-col-3{
-            .woolook-item{
-                flex-basis: 33.3332%;
-                max-width: 33.3332%;
-            }
-        }
-
-        &.woolook-t-col-4{
-            .woolook-item{
-                flex-basis: 25%;
-                max-width: 25%;
-            }
-        }
-
-    }
-
 }
 
 @media screen and ( min-width: $desktop ){
-
-    .woolook-layout-1{
-
-        &.woolook-d-col-1{
-            .woolook-item{
-                flex-basis: 100%;
-                max-width: 100%;
-            }
-        }
-
-        &.woolook-d-col-2{
-            .woolook-item{
-                flex-basis: 50%;
-                max-width: 50%;
-            }
-        }
-
-        &.woolook-d-col-3{
-            .woolook-item{
-                flex-basis: 33.3332%;
-                max-width: 33.3332%;
-            }
-        }
-
-        &.woolook-d-col-4{
-            .woolook-item{
-                flex-basis: 25%;
-                max-width: 25%;
-            }
-        }
-
-    }
 
 }
