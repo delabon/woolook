@@ -2,12 +2,14 @@
 Requires at least: 5.0
 Tested up to: 5.2
 Requires PHP: 5.4
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Tags: woocommerce block, woocommerce blocks, woocommerce grid, gutenberg, gutenberg blocks, gutenberg addon, woocommerce layout
 
 Woolook is a collection of beautiful Woocommerce blocks.
+
+[See Demo Site](https://delabon.com/demo/woolook/) | [See Screenshots](#Screenshots) | [Support](https://delabon.com/support)
 
 == Description ==
 
@@ -17,11 +19,16 @@ Download now and start creating beautiful looking store with ease and without ty
 
 ** BLOCKS :**
 
-1. Layout One : [Demo](https://delabon.com/demo/woolook/)
-2. Layout Two ( coming soon ) : [Demo](#)
-2. Layout Three ( coming soon ) : [Demo](#)
+1. Layout One ( Products ).
+2. Collection One ( Categories ).
+
+** More Coming... **
 
 == More Powerful Plugins ==
+
+* [Sogrid - Gutenberg Blog Grids ( 10 Layouts )](https://wordpress.org/plugins/sogrid/)
+
+A collection of beautiful, customizable WordPress grid blocks.
 
 * [Woomotiv - Woocommerce Notifications - Sales Popups - Reviews Popups ](https://delabon.com/plugin/woomotiv-woocommerce-sales-popups)
 
@@ -59,6 +66,7 @@ Create awesome, elegant and perfect galleries easily in your wordpress editor.
 * Update: Admin panel.
 * Update: Updated tranlasion file.
 * Bugs: Fixed some bugs. 
+* Dev: Code refactoring.
 
 = 1.0.0 =
 

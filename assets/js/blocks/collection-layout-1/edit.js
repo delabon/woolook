@@ -167,6 +167,16 @@ export class Edit extends Component{
                 color: ${attributes.product_title_color};
             }
 
+            #${attributes.uid}.woolook-collection-one .woolook-item-count{
+                color: ${attributes.countNumberColor};
+                background-color: ${attributes.countBackgroundColor};
+            }
+
+            #${attributes.uid}.woolook-collection-one .woolook-item:hover .woolook-item-count{
+                color: ${attributes.countNumberColorHover};
+                background-color: ${attributes.countBackgroundColorHover};
+            }
+
         `;
 
         if( background_type === 'gradient' ){
@@ -349,12 +359,12 @@ export class Edit extends Component{
                     </PanelBody>
 
                     <PanelBody
-                        title={ __('Titles Settings') }
+                        title={ __('Titles Settings', 'woolook') }
                         initialOpen={ false }
                     >
 
                         <ColorControl
-                            label = { __('Title Color') }
+                            label = { __('Title Color', 'woolook') }
                             value = { title_color }
                             onChange = { ( title_color = "#212121" ) => {
                                 setAttributes( { title_color } );
@@ -362,10 +372,49 @@ export class Edit extends Component{
                         />
 
                         <ColorControl
-                            label = { __('Category Title Color') }
+                            label = { __('Category Title Color', 'woolook') }
                             value = { product_title_color }
                             onChange = { ( product_title_color = "#212121" ) => {
                                 setAttributes( { product_title_color } );
+                            } }
+                        />
+                        
+                    </PanelBody>
+
+                    <PanelBody
+                        title={ __('Counter Settings', 'woolook') }
+                        initialOpen={ false }
+                    >
+
+                        <ColorControl
+                            label = { __('Background Color', 'woolook') }
+                            value = { attributes.countBackgroundColor }
+                            onChange = { ( countBackgroundColor = "#212121" ) => {
+                                setAttributes( { countBackgroundColor } );
+                            } }
+                        />
+
+                        <ColorControl
+                            label = { __('Number Color', 'woolook') }
+                            value = { attributes.countNumberColor }
+                            onChange = { ( countNumberColor = "#212121" ) => {
+                                setAttributes( { countNumberColor } );
+                            } }
+                        />
+
+                        <ColorControl
+                            label = { __('Background Color (Hover)', 'woolook') }
+                            value = { attributes.countBackgroundColorHover }
+                            onChange = { ( countBackgroundColorHover = "#212121" ) => {
+                                setAttributes( { countBackgroundColorHover } );
+                            } }
+                        />
+
+                        <ColorControl
+                            label = { __('Number Color (Hover)', 'woolook') }
+                            value = { attributes.countNumberColorHover }
+                            onChange = { ( countNumberColorHover = "#212121" ) => {
+                                setAttributes( { countNumberColorHover } );
                             } }
                         />
                         

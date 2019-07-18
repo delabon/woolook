@@ -3,6 +3,8 @@ import BackgroundControl from '../../components/background-control';
 import ColorControl from '../../components/color-control';
 import { IconDesktop, IconTablet, IconMobile } from '../../icons';
 import uniqueID from '../../global';
+import PaddingMarginSettings from '../../components/PaddingMarginSettings';
+import ResponsiveSettings from '../../components/ResponsiveSettings';
 
 const {
     __
@@ -68,7 +70,11 @@ export class Edit extends Component{
 	}
 
 	componentDidUpdate( prevProps ) {
-        if( prevProps.attributes[ 'categories' ] !== this.props.attributes[ 'categories' ] ){
+        if( 
+            prevProps.attributes[ 'categories' ] !== this.props.attributes[ 'categories' ]
+            ||
+            prevProps.attributes[ 'columns' ] !== this.props.attributes[ 'columns' ]
+        ){
             this.getProducts();
         }
     }
@@ -92,12 +98,12 @@ export class Edit extends Component{
 
     getProducts(){
         const self = this;
-
+        
 		apiFetch({
 			path: addQueryArgs( '/woolook/v1/products', {
                 categories: self.props.attributes.categories,
                 layout: self.props.attributes.layout,
-                limit: 4,
+                limit: self.props.attributes.columns,
             }),
         })
         .then( ( products ) => {
@@ -160,89 +166,9 @@ export class Edit extends Component{
         });
     }
 
-    mobileTabControls(){
-        const {
-            attributes,
-            setAttributes,
-        } = this.props;
-
-        return (
-            <RangeControl
-                label={ __('Columns') }
-                value={ attributes.mobile_columns }
-                onChange={ ( size ) => setAttributes({ mobile_columns: size }) }
-                min={ 1 }
-                max={ attributes.tablet_columns }
-            />
-        );
-    }
-
-    tabletTabControls(){
-        const {
-            attributes,
-            setAttributes,
-        } = this.props;
-
-        return (
-            <RangeControl
-                label={ __('Columns') }
-                value={ attributes.tablet_columns }
-                onChange={ ( size ) => {
-                    setAttributes({ tablet_columns: size });
-                
-                    if( attributes.mobile_columns > size ){
-                        setAttributes({ mobile_columns: size });
-                    }
-                }}
-                min={ 1 }
-                max={ attributes.desktop_columns }
-            />
-        );
-    }
-
-    desktopTabControls(){
-        const {
-            attributes,
-            setAttributes,
-        } = this.props;
-
-        return (
-            <Fragment>
-
-                <RangeControl
-                    label={ __('Columns') }
-                    value={ attributes.desktop_columns }
-                    onChange={ ( size ) => {
-                        setAttributes({ desktop_columns: size });
-
-                        if( attributes.tablet_columns > size ){
-                            setAttributes({ tablet_columns: size });
-
-                            if( attributes.mobile_columns > size ){
-                                setAttributes({ mobile_columns: size });
-                            }
-                        }
-                    }}
-                    min={ 1 }
-                    max={ 4 }
-                />
-
-                <RangeControl
-                    label = { __('Font Size') }
-                    help = { __('This setting can change the block look.') }
-                    min = { 1 }
-                    max = { 10 }
-                    value={ attributes.font_size }
-                    onChange={ ( newValue = 4 ) => {
-                        setAttributes( { font_size: newValue } );
-                    } }
-                />
-            </Fragment>            
-        );
-    }
-
     renderStyle(){
-        const _self = this;
+
+        const { attributes } = this.props;
 
         const {
             uid,
@@ -256,7 +182,6 @@ export class Edit extends Component{
             background_image_scroll,
             stars_unrated_bg,
             stars_rated_bg,
-            font_size,
             title_color,
             subtitle_color,
             product_title_color,
@@ -266,15 +191,20 @@ export class Edit extends Component{
             button_border_color,
             button_hover_bg,
             button_hover_color,
-            padding,
-        } = _self.props.attributes;
+        } = attributes;
 
         let output = `
             
             #${uid}.woolook-layout-1{
-                padding-top: ${padding}em;
-                padding-bottom: ${padding}em;
-                font-size: ${ font_size / 5 }em;
+                padding-top: ${attributes.paddingTop}px;
+                padding-bottom: ${attributes.paddingBottom}px;
+                padding-left: ${attributes.paddingLeft}px;
+                padding-right: ${attributes.paddingRight}px;
+                margin-top: ${attributes.marginTop}px;
+                margin-bottom: ${attributes.marginBottom}px;
+                margin-left: ${attributes.marginLeft}px;
+                margin-right: ${attributes.marginRight}px;
+                font-size: ${ attributes.mobileFontSize }px;
                 background-color: ${background_color};
             }
 
@@ -340,6 +270,22 @@ export class Edit extends Component{
             `;
         }
 
+        // Breakpoints 
+        output += `
+            @media all and (min-width: 768px) {
+                #${attributes.uid}.woolook-layout-1{
+                    font-size: ${attributes.tabletFontSize}px;
+                }
+            }
+
+            @media all and (min-width: 992px) {
+                #${attributes.uid}.woolook-layout-1{
+                    font-size: ${attributes.fontSize}px;
+                }
+            }
+        `;
+    
+
         return (
             <style>{ output }</style>
         );
@@ -350,6 +296,10 @@ export class Edit extends Component{
         const self = this;
 
         const { cat_list, products, loading } = self.state;
+
+        if( loading ){
+            return __('Loading...', 'woolook');
+        }
 
         const {
             setAttributes,
@@ -363,9 +313,6 @@ export class Edit extends Component{
             subtitle,
             categories,
             alignment,
-            desktop_columns,
-            mobile_columns,
-            tablet_columns,
             background_type,
             background_color,
             gradient_orientation,
@@ -386,10 +333,9 @@ export class Edit extends Component{
             button_border_color,
             button_hover_bg,
             button_hover_color,
-            padding,
         } = attributes;
 
-		const classes = [ 'woolook', 'woolook-layout-1', 'woolook-col-d-' + desktop_columns, 'woolook-col-t-' + tablet_columns, 'woolook-col-m-' + mobile_columns,  ];
+		const classes = [ 'woolook', 'woolook-layout-1' ];
 
         if ( products && ! products.length ) {
             classes.push( 'is-loading' );
@@ -411,45 +357,10 @@ export class Edit extends Component{
             isSelected && (
     
                 <InspectorControls key = {'inspector'} > 
-              
-                    <TabPanel 
-                        className="woolook-tabs"
-                        activeClass="woolook-tab-active"
-                        onSelect={ ( tabName ) => setAttributes({ currentTab: tabName }) }
-                        tabs={ [
-                            {
-                                name: 'desktop',
-                                title: <IconDesktop/>,
-                                className: 'woolook-tab tab-1',
-                            },
-                            {
-                                name: 'tablet',
-                                title: <IconTablet/>,
-                                className: 'woolook-tab tab-2',
-                            },
-                            {
-                                name: 'mobile',
-                                title: <IconMobile/>,
-                                className: 'woolook-tab tab-3',
-                            },
-                        ] }>
-                        {
-                            ( tab ) => {
-                                if( tab.name === 'mobile' ){
-                                    return self.mobileTabControls();
-                                }
-                                else if( tab.name === 'tablet' ){
-                                    return self.tabletTabControls();
-                                }
-
-                                return self.desktopTabControls();
-                            }
-                        }
-                    </TabPanel>
 
                     <PanelBody
                         title={ __('Select Categories') }
-                        initialOpen={ false }
+                        initialOpen={ true }
                     >
                             
                         <SearchListControl 
@@ -463,23 +374,10 @@ export class Edit extends Component{
                         ></SearchListControl>
 
                     </PanelBody>
+                    
+                    <ResponsiveSettings attributes={attributes} setAttributes={setAttributes} />
 
-                    <PanelBody
-                        title={ __('Padding') }
-                        initialOpen={ false }
-                    >
-
-                        <RangeControl
-                            label = { __('Top / Bottom') }
-                            min = { 1 }
-                            max = { 30 }
-                            value={ padding }
-                            onChange={ ( newValue = 3 ) => {
-                                setAttributes( { padding: newValue } );
-                            } }
-                        />
-
-                    </PanelBody>
+                    <PaddingMarginSettings attributes={attributes} setAttributes={setAttributes} />
 
                     <PanelBody
                         title={ __('Background Settings') }
@@ -656,6 +554,9 @@ export class Edit extends Component{
                 <div 
                     id = { uid }
                     className={ classes.join( ' ' ) }
+                    data-desktop={attributes.columns}
+                    data-tablet={attributes.tabletColumns}
+                    data-mobile={attributes.mobileColumns}
                 >
                     <div className = {'woolook-container'}>
 

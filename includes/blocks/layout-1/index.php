@@ -38,12 +38,12 @@ class Block_Layout_One {
 
                 'subtitle' => array(
                     'type' => 'string',
-                    'default' => 'This is our new collection.',
+                    'default' => 'Our New Products.',
                 ),
 
                 'alignment' => array(
                     'type' => 'string',
-                    'default' => 'left',
+                    'default' => 'center',
                 ),
                 
                 'categories' => array(
@@ -59,34 +59,84 @@ class Block_Layout_One {
                     'default' => 1,
                 ),
 
-                'font_size' => array(
+                'maxColumns' => array(
                     'type' => 'number',
                     'default' => 5,
                 ),
-
-                'padding' => array(
+    
+                'columns' => array(
                     'type' => 'number',
-                    'default' => 3,
+                    'default' => 2,
                 ),
-    
-                'currentTab' => array(
-                    'type' => 'string',
-                    'default' => 'tab1',
-                ),
-    
-                'mobile_columns' => array(
+
+                'mobileColumns' => array(
                     'type' => 'number',
                     'default' => 1,
                 ),
     
-                'tablet_columns' => array(
+                'tabletColumns' => array(
                     'type' => 'number',
                     'default' => 2,
                 ),
     
-                'desktop_columns' => array(
+                'fontSize' => array(
                     'type' => 'number',
-                    'default' => 3,
+                    'default' => 16,
+                ),
+                
+                'mobileFontSize' => array(
+                    'type' => 'number',
+                    'default' => 16,
+                ),
+
+                'tabletFontSize' => array(
+                    'type' => 'number',
+                    'default' => 16,
+                ),
+
+                'paddingTop' => array(
+                    'type' => 'number',
+                    'default' => 0,
+                ),
+
+                'paddingBottom' => array(
+                    'type' => 'number',
+                    'default' => 0,
+                ),
+
+                'paddingLeft' => array(
+                    'type' => 'number',
+                    'default' => 0,
+                ),
+
+                'paddingRight' => array(
+                    'type' => 'number',
+                    'default' => 0,
+                ),
+
+                'marginTop' => array(
+                    'type' => 'number',
+                    'default' => 0,
+                ),
+
+                'marginBottom' => array(
+                    'type' => 'number',
+                    'default' => 30,
+                ),
+
+                'marginLeft' => array(
+                    'type' => 'number',
+                    'default' => 0,
+                ),
+
+                'marginRight' => array(
+                    'type' => 'number',
+                    'default' => 0,
+                ),
+
+                'currentTab' => array(
+                    'type' => 'string',
+                    'default' => 'tab1',
                 ),
     
                 'background_type' => array(
@@ -197,30 +247,127 @@ class Block_Layout_One {
     }
 
     /**
+     * Renders the products
+     *
+     * @param array $attributes
+     * @return string
+     */
+    function renderItems( $attributes ){
+
+        $products = new Products(array(
+            'limit' => (int)$attributes['columns'],
+            'categories' => $attributes['categories'] // this will be sanitized inside the Products class
+        ));
+
+        $imagePlaceHolder = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==";
+        $btn_trans = __('Add To Cart', 'woolook');
+        $rows_markup = '';
+
+        foreach( $products->get_products() as $product ){
+
+            $title = esc_html($product['name']);
+            $permalink = esc_url( $product['permalink'] );
+            $image = "<img src='{$imagePlaceHolder}' alt='' />";
+
+            if( count( $product['images'] ) ) {
+                $image = "<img src='".esc_url( $product['images'][0]['src'] )."' alt='".esc_attr( $product['name'] )."' />";
+            }
+
+            $rows_markup .= <<<HTML
+            <div class="woolook-item">
+                
+                <div class="woolook-item-thumbnail">
+                    <a href="{$permalink}">{$image}</a>
+                </div>
+
+                <div class="woolook-item-reviews">{$product['reviews_html']}</div>
+
+                <h3 class="woolook-item-title">
+                    <a href="{$permalink}">{$title}</a>
+                </h3>
+
+                <div class="woolook-item-price">{$product['price_html']}</div>
+                
+                <a href="#" class="woolook-item-addtocart" data-id={$product['id']}>
+                    {$btn_trans}
+                </a>
+
+            </div>
+HTML;
+
+        }
+
+        return $rows_markup;
+    }
+
+    /**
+     * Server-side Rendering
+     *
+     * @param array $atts
+     * @return string
+     */
+    function render( $attributes ) {
+
+        $classes = array( "woolook", "woolook-layout-1" );
+        $classes = implode(' ', $classes );
+        $style = $this->renderStyle( $attributes );
+        $items = $this->renderItems( $attributes );
+        $uid = esc_attr($attributes['uid']);
+        $alignment = esc_attr($attributes['alignment']);
+        $title = esc_html( $attributes['title'] );
+        $subtitle = esc_html( $attributes['subtitle'] );
+
+        $columns = esc_attr($attributes['columns']);
+        $tabletColumns = esc_attr($attributes['tabletColumns']);
+        $mobileColumns = esc_attr($attributes['mobileColumns']);
+
+        return <<<HTML
+            
+            {$style}
+
+            <div id="{$uid}" class="{$classes}" data-desktop="{$columns}" data-tablet="{$tabletColumns}" data-mobile="{$mobileColumns}">
+
+                <div class="woolook-container">
+
+                    <div class="woolook-header" style="text-align: {$alignment};" >
+
+                        <h2 class="woolook-title">{$title}</h2>
+
+                        <span class="woolook-subtitle">{$subtitle}</span>
+
+                    </div>
+
+                    <div class="woolook-row">{$items}</div>
+                    
+                </div>
+            
+            </div>
+HTML;
+
+    }
+
+    /**
      * Renders the block style
      *
      * @param array $attributes
      * @return string
      */
     function renderStyle( $attributes ){
-        global $woolook_font_list;
 
-    	$max_width = get_option('woolook_max_width', WOOLOOK_OPTION_MAX_WIDTH );
-        $font_selected = get_option('woolook_font', WOOLOOK_OPTION_FONT );
-        $font_data = $woolook_font_list[ $font_selected ];
-        $font_size = (int)$attributes['font_size'] / 5;
         $uid = esc_attr($attributes['uid']);
 
         $output = "
             #{$uid}.woolook-layout-1{
-                padding-top: ".esc_attr($attributes['padding'])."em;
-                padding-bottom: ".esc_attr($attributes['padding'])."em;
-                font-size: {$font_size}em;
+                padding-top: ".esc_attr($attributes['paddingTop'])."px;
+                padding-bottom: ".esc_attr($attributes['paddingBottom'])."px;
+                padding-left: ".esc_attr($attributes['paddingLeft'])."px;
+                padding-right: ".esc_attr($attributes['paddingRight'])."px;
+                margin-top: ".esc_attr($attributes['marginTop'])."px;
+                margin-bottom: ".esc_attr($attributes['marginBottom'])."px;
+                margin-left: ".esc_attr($attributes['marginLeft'])."px;
+                margin-right: ".esc_attr($attributes['marginRight'])."px;
+                font-size: ".esc_attr($attributes['mobileFontSize'])."px;
                 background-color: ".esc_attr($attributes['background_color']).";
-            }
-
-            #{$uid}.woolook-layout-1 .woolook-container{
-                max-width: ".esc_attr($max_width)." !important;
             }
 
             #{$uid}.woolook-layout-1 .woolook-title{
@@ -291,105 +438,24 @@ class Block_Layout_One {
             ";
         }
 
+        // Breakpoints 
+        $output .= "
+            @media all and (min-width: 768px) {
+                #{$uid}.woolook-layout-1{
+                    font-size: ".esc_attr($attributes['tabletFontSize'])."px;
+                }
+            }
+
+            @media all and (min-width: 992px) {
+                #{$uid}.woolook-layout-1{
+                    font-size:  ".esc_attr($attributes['fontSize'])."px;
+                }
+            }
+        ";
+    
         return "<style>{$output}</style>";
     }
 
-    /**
-     * Renders the products
-     *
-     * @param array $attributes
-     * @return string
-     */
-    function renderItems( $attributes ){
-
-        $products = new Products(array(
-            'limit' => (int)$attributes['desktop_columns'],
-            'categories' => $attributes['categories'] // this will be sanitized inside the Products class
-        ));
-
-        $imagePlaceHolder = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==";
-        $btn_trans = __('Add To Cart', 'woolook');
-        $rows_markup = '';
-
-        foreach( $products->get_products() as $product ){
-
-            $title = esc_html($product['name']);
-            $permalink = esc_url( $product['permalink'] );
-            $image = "<img src='{$imagePlaceHolder}' alt='' />";
-
-            if( count( $product['images'] ) ) {
-                $image = "<img src='".esc_url( $product['images'][0]['src'] )."' alt='".esc_attr( $product['name'] )."' />";
-            }
-
-            $rows_markup .= <<<HTML
-            <div class="woolook-item">
-                
-                <div class="woolook-item-thumbnail">
-                    <a href="{$permalink}">{$image}</a>
-                </div>
-
-                <div class="woolook-item-reviews">{$product['reviews_html']}</div>
-
-                <h3 class="woolook-item-title">
-                    <a href="{$permalink}">{$title}</a>
-                </h3>
-
-                <div class="woolook-item-price">{$product['price_html']}</div>
-                
-                <a href="#" class="woolook-item-addtocart" data-id={$product['id']}>
-                    {$btn_trans}
-                </a>
-
-            </div>
-HTML;
-
-        }
-
-        return $rows_markup;
-    }
-
-    /**
-     * Server-side Rendering
-     *
-     * @param array $atts
-     * @return string
-     */
-    function render( $attributes ) {
-
-        $classes = array( "woolook", "woolook-layout-1", "woolook-d-col-".esc_attr($attributes['desktop_columns']), "woolook-t-col-".esc_attr($attributes['tablet_columns']), "woolook-m-col-".esc_attr($attributes['mobile_columns']) );
-        $classes = implode(' ', $classes );
-        $style = $this->renderStyle( $attributes );
-        $items = $this->renderItems( $attributes );
-        $uid = esc_attr($attributes['uid']);
-        $alignment = esc_attr($attributes['alignment']);
-        $title = esc_html( $attributes['title'] );
-        $subtitle = esc_html( $attributes['subtitle'] );
-
-
-        return <<<HTML
-            
-            {$style}
-
-            <div id="{$uid}" class="{$classes}">
-
-                <div class="woolook-container">
-
-                    <div class="woolook-header" style="text-align: {$alignment};" >
-
-                        <h2 class="woolook-title">{$title}</h2>
-
-                        <span class="woolook-subtitle">{$subtitle}</span>
-
-                    </div>
-
-                    <div class="woolook-row">{$items}</div>
-                    
-                </div>
-            
-            </div>
-HTML;
-
-    }
 
 }
 

@@ -33,12 +33,12 @@ class Block_Collection_Layout_One {
     
                 'title' => array(
                     'type' => 'string',
-                    'default' => 'Feed',
+                    'default' => 'Our New Collection',
                 ),
 
                 'alignment' => array(
                     'type' => 'string',
-                    'default' => 'left',
+                    'default' => 'center',
                 ),
                 
                 'categories' => array(
@@ -174,16 +174,6 @@ class Block_Collection_Layout_One {
                     'default' => false,
                 ),
 
-                'stars_unrated_bg' => array(
-                    'type' => 'string',
-                    'default' => 'rgba( 0, 0, 0, 0.16 )',
-                ),
-
-                'stars_rated_bg' => array(
-                    'type' => 'string',
-                    'default' => 'rgba( 0, 0, 0, 0.5 )',
-                ),
-
                 'title_color' => array(
                     'type' => 'string',
                     'default' => '#212121',
@@ -194,32 +184,22 @@ class Block_Collection_Layout_One {
                     'default' => '#212121',
                 ),
 
-                'price_color' => array(
+                'countBackgroundColor' => array(
                     'type' => 'string',
-                    'default' => '#212121',
+                    'default' => '#fff',
                 ),
 
-                'sale_price_color' => array(
+                'countBackgroundColorHover' => array(
                     'type' => 'string',
-                    'default' => 'red',
+                    'default' => '#000',
                 ),
 
-                'button_color' => array(
+                'countNumberColor' => array(
                     'type' => 'string',
-                    'default' => '#6f6e6c',
+                    'default' => '#000',
                 ),
 
-                'button_border_color' => array(
-                    'type' => 'string',
-                    'default' => '#dce3e6',
-                ),
-
-                'button_hover_bg' => array(
-                    'type' => 'string',
-                    'default' => '#363636',
-                ),
-
-                'button_hover_color' => array(
+                'countNumberColorHover' => array(
                     'type' => 'string',
                     'default' => '#fff',
                 ),
@@ -229,85 +209,6 @@ class Block_Collection_Layout_One {
             'render_callback' => array( $this, 'render' ),
 
         ) );
-    }
-
-    /**
-     * Renders the block style
-     *
-     * @param array $attributes
-     * @return string
-     */
-    function renderStyle( $attributes ){
-
-        $uid = esc_attr($attributes['uid']);
-
-        $output = "
-            #{$uid}.woolook-collection-one{
-                padding-top: ".esc_attr($attributes['paddingTop'])."px;
-                padding-bottom: ".esc_attr($attributes['paddingBottom'])."px;
-                padding-left: ".esc_attr($attributes['paddingLeft'])."px;
-                padding-right: ".esc_attr($attributes['paddingRight'])."px;
-                margin-top: ".esc_attr($attributes['marginTop'])."px;
-                margin-bottom: ".esc_attr($attributes['marginBottom'])."px;
-                margin-left: ".esc_attr($attributes['marginLeft'])."px;
-                margin-right: ".esc_attr($attributes['marginRight'])."px;
-                font-size: ".esc_attr($attributes['mobileFontSize'])."px;
-                background-color: ".esc_attr($attributes['background_color']).";
-            }
-
-            #{$uid}.woolook-collection-one .woolook-title{
-                color: ".esc_attr($attributes['title_color']).";
-            }
-
-            #{$uid}.woolook-collection-one .woolook-item-title{
-                color: ".esc_attr($attributes['product_title_color']).";
-            }
-        ";
-
-        if( $attributes['background_type'] === 'gradient' ){
-
-            $gradient_orientation = str_replace( '-', ' ', $attributes['gradient_orientation'] );
-
-            $output .= "
-                #{$uid}.woolook-collection-one{
-                    background-image: linear-gradient( ".esc_attr($gradient_orientation).", ".esc_attr($attributes['gradient_from']).", ".esc_attr($attributes['gradient_to'])." );
-                }
-            ";
-        }
-
-        else if( $attributes['background_type'] === 'image' ){
-
-            $bg_attachment = $attributes['background_image_scroll'] ? 'scroll' : 'fixed';
-
-            $output .= "
-                #{$uid}.woolook-collection-one{
-                    background-image: url('".esc_url($attributes['background_image_url'])."');
-                    background-repeat: ".esc_attr($attributes['background_image_repeat']).";
-                    background-attachment: ".esc_attr($bg_attachment).";
-                    -webkit-background-size: cover;
-                    -moz-background-size: cover;
-                    -o-background-size: cover;
-                    background-size: cover;
-                }
-            ";
-        }
-
-        // Breakpoints 
-        $output .= "
-            @media all and (min-width: 768px) {
-                #{$uid}.woolook-collection-one{
-                    font-size: ".esc_attr($attributes['tabletFontSize'])."px;
-                }
-            }
-
-            @media all and (min-width: 992px) {
-                #{$uid}.woolook-collection-one{
-                    font-size:  ".esc_attr($attributes['fontSize'])."px;
-                }
-            }
-        ";
-
-        return "<style>{$output}</style>";
     }
 
     /**
@@ -396,6 +297,95 @@ HTML;
 
     }
 
+        /**
+     * Renders the block style
+     *
+     * @param array $attributes
+     * @return string
+     */
+    function renderStyle( $attributes ){
+
+        $uid = esc_attr($attributes['uid']);
+
+        $output = "
+            #{$uid}.woolook-collection-one{
+                padding-top: ".esc_attr($attributes['paddingTop'])."px;
+                padding-bottom: ".esc_attr($attributes['paddingBottom'])."px;
+                padding-left: ".esc_attr($attributes['paddingLeft'])."px;
+                padding-right: ".esc_attr($attributes['paddingRight'])."px;
+                margin-top: ".esc_attr($attributes['marginTop'])."px;
+                margin-bottom: ".esc_attr($attributes['marginBottom'])."px;
+                margin-left: ".esc_attr($attributes['marginLeft'])."px;
+                margin-right: ".esc_attr($attributes['marginRight'])."px;
+                font-size: ".esc_attr($attributes['mobileFontSize'])."px;
+                background-color: ".esc_attr($attributes['background_color']).";
+            }
+
+            #{$uid}.woolook-collection-one .woolook-title{
+                color: ".esc_attr($attributes['title_color']).";
+            }
+
+            #{$uid}.woolook-collection-one .woolook-item-title{
+                color: ".esc_attr($attributes['product_title_color']).";
+            }
+
+            #{$uid}.woolook-collection-one .woolook-item-count{
+                color: ".esc_attr( $attributes['countNumberColor'] ).";
+                background-color: ".esc_attr( $attributes['countBackgroundColor']).";
+            }
+
+            #{$uid}.woolook-collection-one .woolook-item:hover .woolook-item-count{
+                color: ".esc_attr( $attributes['countNumberColorHover']).";
+                background-color: ".esc_attr( $attributes["countBackgroundColorHover"]).";
+            }
+        ";
+
+        if( $attributes['background_type'] === 'gradient' ){
+
+            $gradient_orientation = str_replace( '-', ' ', $attributes['gradient_orientation'] );
+
+            $output .= "
+                #{$uid}.woolook-collection-one{
+                    background-image: linear-gradient( ".esc_attr($gradient_orientation).", ".esc_attr($attributes['gradient_from']).", ".esc_attr($attributes['gradient_to'])." );
+                }
+            ";
+        }
+
+        else if( $attributes['background_type'] === 'image' ){
+
+            $bg_attachment = $attributes['background_image_scroll'] ? 'scroll' : 'fixed';
+
+            $output .= "
+                #{$uid}.woolook-collection-one{
+                    background-image: url('".esc_url($attributes['background_image_url'])."');
+                    background-repeat: ".esc_attr($attributes['background_image_repeat']).";
+                    background-attachment: ".esc_attr($bg_attachment).";
+                    -webkit-background-size: cover;
+                    -moz-background-size: cover;
+                    -o-background-size: cover;
+                    background-size: cover;
+                }
+            ";
+        }
+
+        // Breakpoints 
+        $output .= "
+            @media all and (min-width: 768px) {
+                #{$uid}.woolook-collection-one{
+                    font-size: ".esc_attr($attributes['tabletFontSize'])."px;
+                }
+            }
+
+            @media all and (min-width: 992px) {
+                #{$uid}.woolook-collection-one{
+                    font-size:  ".esc_attr($attributes['fontSize'])."px;
+                }
+            }
+        ";
+
+        return "<style>{$output}</style>";
+    }
+    
 }
 
 // exec

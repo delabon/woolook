@@ -63,7 +63,7 @@ add_action( 'enqueue_block_assets', function () {
 	// Scripts.
 	wp_enqueue_script(
 		'woolook-frontend',
-		WOOLOOK_URL . '/dist/front.js', 
+		WOOLOOK_URL . '/dist/front.min.js', 
 		array('jquery'),
 		WOOLOOK_VERSION,
 		true
