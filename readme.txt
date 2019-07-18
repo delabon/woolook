@@ -5,7 +5,7 @@ Requires PHP: 5.4
 Stable tag: 1.1.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Tags: woocommerce block, woocommerce blocks, woocommerce grid, gutenberg, gutenberg blocks, gutenberg addon, woocommerce layout
+Tags: woocommerce blocks, woocommerce grid, woocommerce layout, woocommerce
 
 Woolook is a collection of beautiful Woocommerce blocks.
 
@@ -17,12 +17,23 @@ Woolook is a collection of beautiful Woocommerce blocks. It's easy and enjoyable
 
 Download now and start creating beautiful looking store with ease and without typing a single line of code.
 
-** BLOCKS :**
+**BLOCKS :**
 
 1. Layout One ( Products ).
 2. Collection One ( Categories ).
 
-** More Coming... **
+**More Coming...**
+
+== Features ==
+
+* Responsive & Mobile Ready ( + Control Settings ) 
+* Unlimited Colors
+* Ton of Settings 
+* Multiple Categories 
+* No Shortcodes
+* Easy to Use
+* Getting Started Guide.
+* More....
 
 == More Powerful Plugins ==
 
