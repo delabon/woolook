@@ -2,7 +2,7 @@
 Requires at least: 5.0
 Tested up to: 5.2
 Requires PHP: 5.4
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Tags: woocommerce blocks, woocommerce grid, woocommerce layout, woocommerce
@@ -69,6 +69,10 @@ Create awesome, elegant and perfect galleries easily in your wordpress editor.
 2. Layout One Backend
 
 == Changelog ==
+
+= 1.1.1 =
+
+* Bugs: Fixed add to cart button issue. 
 
 = 1.1.0 =
 
