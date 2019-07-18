@@ -1,8 +1,9 @@
 import { SearchListControl } from '../../components/search-list-control';
 import BackgroundControl from '../../components/background-control';
 import ColorControl from '../../components/color-control';
-import { IconDesktop, IconTablet, IconMobile } from '../../icons';
 import uniqueID from '../../global';
+import PaddingMarginSettings from '../../components/PaddingMarginSettings';
+import ResponsiveSettings from '../../components/ResponsiveSettings';
 
 const {
     __
@@ -17,8 +18,6 @@ const {
 
 const {
     PanelBody,
-    TabPanel,
-    RangeControl,
 } = wp.components;
 
 const {
@@ -43,6 +42,7 @@ export class Edit extends Component{
         this.generateID = this.generateID.bind( this );
         this.getItems = this.getItems.bind( this );
         this.renderCategory = this.renderCategory.bind( this );
+        this.renderStyle = this.renderStyle.bind( this );
     }
 
 	componentDidMount() {
@@ -95,7 +95,6 @@ export class Edit extends Component{
 		apiFetch({
 			path: addQueryArgs( '/woolook/v1/categories', {
                 categories: self.props.attributes.categories,
-                layout: self.props.attributes.layout,
                 limit: 3,
             }),
         })
@@ -113,87 +112,6 @@ export class Edit extends Component{
         });
     }
 
-    mobileTabControls(){
-        const {
-            attributes,
-            setAttributes,
-        } = this.props;
-
-        return (
-            <RangeControl
-                label={ __('Columns') }
-                value={ attributes.mobile_columns }
-                onChange={ ( size ) => setAttributes({ mobile_columns: size }) }
-                min={ 1 }
-                max={ attributes.tablet_columns }
-            />
-        );
-    }
-
-    tabletTabControls(){
-        const {
-            attributes,
-            setAttributes,
-        } = this.props;
-
-        return (
-            <RangeControl
-                label={ __('Columns') }
-                value={ attributes.tablet_columns }
-                onChange={ ( size ) => {
-                    setAttributes({ tablet_columns: size });
-                
-                    if( attributes.mobile_columns > size ){
-                        setAttributes({ mobile_columns: size });
-                    }
-                }}
-                min={ 1 }
-                max={ attributes.desktop_columns }
-            />
-        );
-    }
-
-    desktopTabControls(){
-        const {
-            attributes,
-            setAttributes,
-        } = this.props;
-
-        return (
-            <Fragment>
-
-                <RangeControl
-                    label={ __('Columns') }
-                    value={ attributes.desktop_columns }
-                    onChange={ ( size ) => {
-                        setAttributes({ desktop_columns: size });
-
-                        if( attributes.tablet_columns > size ){
-                            setAttributes({ tablet_columns: size });
-
-                            if( attributes.mobile_columns > size ){
-                                setAttributes({ mobile_columns: size });
-                            }
-                        }
-                    }}
-                    min={ 1 }
-                    max={ 4 }
-                />
-
-                <RangeControl
-                    label = { __('Font Size') }
-                    help = { __('This setting can change the block look.') }
-                    min = { 1 }
-                    max = { 10 }
-                    value={ attributes.font_size }
-                    onChange={ ( newValue = 4 ) => {
-                        setAttributes( { font_size: newValue } );
-                    } }
-                />
-            </Fragment>            
-        );
-    }
-
     renderCategory( category ){        
         return (
             <div 
@@ -203,13 +121,94 @@ export class Edit extends Component{
                 }}
             >
                 <div className="woolook-item-details">
-                    <h3 className="woolook-item-title">{category.name}</h3>
+                    <div className="woolook-item-title">{category.name}</div>
                     <span className="woolook-item-count">{category.count}</span>
                 </div>
 
                 <a href="#"></a>
             </div>
         )
+    }
+
+    renderStyle(){
+
+        const { attributes } = this.props;
+
+        const {
+            background_type,
+            gradient_orientation,
+            gradient_from,
+            gradient_to,
+            background_image_url,
+            background_image_repeat,
+            background_image_scroll,
+        } = attributes;
+
+        let output = `
+
+            #${attributes.uid}.woolook-collection-one{
+                padding-top: ${attributes.paddingTop}px;
+                padding-bottom: ${attributes.paddingBottom}px;
+                padding-left: ${attributes.paddingLeft}px;
+                padding-right: ${attributes.paddingRight}px;
+                margin-top: ${attributes.marginTop}px;
+                margin-bottom: ${attributes.marginBottom}px;
+                margin-left: ${attributes.marginLeft}px;
+                margin-right: ${attributes.marginRight}px;
+                font-size: ${ attributes.mobileFontSize }px;
+                background-color: ${attributes.background_color};
+            }
+
+            #${attributes.uid}.woolook-collection-one .woolook-title{
+                color: ${attributes.title_color};
+            }
+
+            #${attributes.uid}.woolook-collection-one .woolook-item-title{
+                color: ${attributes.product_title_color};
+            }
+
+        `;
+
+        if( background_type === 'gradient' ){
+            output += `
+                #${attributes.uid}.woolook-collection-one{
+                    background-image: linear-gradient( ${gradient_orientation.replace('-', ' ')}, ${gradient_from}, ${gradient_to} );
+                }
+            `;
+        }
+
+        else if( background_type === 'image' ){
+            output += `
+                #${attributes.uid}.woolook-collection-one{
+                    background-image: url('${ background_image_url }');
+                    background-repeat: ${ background_image_repeat };
+                    background-attachment: ${ background_image_scroll ? 'scroll' : 'fixed' };
+                    -webkit-background-size: cover;
+                    -moz-background-size: cover;
+                    -o-background-size: cover;
+                    background-size: cover;
+                }
+            `;
+        }
+
+        // Breakpoints 
+        output += `
+            @media all and (min-width: 768px) {
+                #${attributes.uid}.woolook-collection-one{
+                    font-size: ${attributes.tabletFontSize}px;
+                }
+            }
+
+            @media all and (min-width: 992px) {
+                #${attributes.uid}.woolook-collection-one{
+                    font-size: ${attributes.fontSize}px;
+                }
+            }
+        `;
+
+        return (
+            <style>{ output }</style>
+        );
     }
 
     render(){
@@ -233,9 +232,6 @@ export class Edit extends Component{
             title,
             categories,
             alignment,
-            desktop_columns,
-            mobile_columns,
-            tablet_columns,
             background_type,
             background_color,
             gradient_orientation,
@@ -245,17 +241,8 @@ export class Edit extends Component{
             background_image_id,
             background_image_repeat,
             background_image_scroll,
-            stars_unrated_bg,
-            stars_rated_bg,
             title_color,
             product_title_color,
-            price_color,
-            sale_price_color,
-            button_color,
-            button_border_color,
-            button_hover_bg,
-            button_hover_color,
-            padding,
         } = attributes;
 
 		const classes = [ 'woolook', 'woolook-collection-one' ];
@@ -287,41 +274,6 @@ export class Edit extends Component{
     
                 <InspectorControls key = {'inspector'} > 
 
-                    <TabPanel 
-                        className="woolook-tabs"
-                        activeClass="woolook-tab-active"
-                        onSelect={ ( tabName ) => setAttributes({ currentTab: tabName }) }
-                        tabs={ [
-                            {
-                                name: 'desktop',
-                                title: <IconDesktop/>,
-                                className: 'woolook-tab tab-1',
-                            },
-                            {
-                                name: 'tablet',
-                                title: <IconTablet/>,
-                                className: 'woolook-tab tab-2',
-                            },
-                            {
-                                name: 'mobile',
-                                title: <IconMobile/>,
-                                className: 'woolook-tab tab-3',
-                            },
-                        ] }>
-                        {
-                            ( tab ) => {
-                                if( tab.name === 'mobile' ){
-                                    return self.mobileTabControls();
-                                }
-                                else if( tab.name === 'tablet' ){
-                                    return self.tabletTabControls();
-                                }
-
-                                return self.desktopTabControls();
-                            }
-                        }
-                    </TabPanel>
-
                     <PanelBody
                         title={ __('Select Categories') }
                         initialOpen={ true }
@@ -345,22 +297,9 @@ export class Edit extends Component{
 
                     </PanelBody>
 
-                    <PanelBody
-                        title={ __('Padding') }
-                        initialOpen={ false }
-                    >
+                    <ResponsiveSettings attributes={attributes} setAttributes={setAttributes} />
 
-                        <RangeControl
-                            label = { __('Top / Bottom') }
-                            min = { 1 }
-                            max = { 30 }
-                            value={ padding }
-                            onChange={ ( newValue = 3 ) => {
-                                setAttributes( { padding: newValue } );
-                            } }
-                        />
-
-                    </PanelBody>
+                    <PaddingMarginSettings attributes={attributes} setAttributes={setAttributes} />
 
                     <PanelBody
                         title={ __('Background Settings') }
@@ -410,29 +349,6 @@ export class Edit extends Component{
                     </PanelBody>
 
                     <PanelBody
-                        title={ __('Stars Settings') }
-                        initialOpen={ false }
-                    >
-                        
-                        <ColorControl
-                            label = { __('Unrated') }
-                            value = { stars_unrated_bg }
-                            onChange = { ( value = "rgba( 0, 0, 0, 0.16 )" ) => {
-                                setAttributes( { stars_unrated_bg: value } );
-                            } }
-                        />
-
-                        <ColorControl
-                            label = { __('Rated') }
-                            value = { stars_rated_bg }
-                            onChange = { ( value = "rgba( 0, 0, 0, 0.5 )" ) => {
-                                setAttributes( { stars_rated_bg: value } );
-                            } }
-                        />
-                        
-                    </PanelBody>
-
-                    <PanelBody
                         title={ __('Titles Settings') }
                         initialOpen={ false }
                     >
@@ -440,80 +356,16 @@ export class Edit extends Component{
                         <ColorControl
                             label = { __('Title Color') }
                             value = { title_color }
-                            onChange = { ( value = "#212121" ) => {
-                                setAttributes( { title_color: value } );
+                            onChange = { ( title_color = "#212121" ) => {
+                                setAttributes( { title_color } );
                             } }
                         />
 
                         <ColorControl
-                            label = { __('Product Title Color') }
+                            label = { __('Category Title Color') }
                             value = { product_title_color }
-                            onChange = { ( value = "#212121" ) => {
-                                setAttributes( { product_title_color: value } );
-                            } }
-                        />
-                        
-                    </PanelBody>
-
-                    <PanelBody
-                        title={ __('Price Settings') }
-                        initialOpen={ false }
-                    >
-
-                        <ColorControl
-                            label = { __('Color') }
-                            value = { price_color }
-                            onChange = { ( value = "#212121" ) => {
-                                setAttributes( { price_color: value } );
-                            } }
-                        />
-
-                        <ColorControl
-                            label = { __('Sale Price Color') }
-                            value = { sale_price_color }
-                            onChange = { ( value = "#212121" ) => {
-                                setAttributes( { sale_price_color: value } );
-                            } }
-                        />
-                        
-                    </PanelBody>
-
-                    <PanelBody
-                        title={ __('Button Settings') }
-                        initialOpen={ false }
-                    >
-
-                        <ColorControl
-                            label = { __('Color') }
-                            value = { button_color }
-                            onChange = { ( value ) => {
-                                setAttributes( { button_color: value } );
-                            } }
-                        />
-
-                        <ColorControl
-                            label = { __('Border Color') }
-                            value = { button_border_color }
-                            onChange = { ( value ) => {
-                                setAttributes( { button_border_color: value } );
-                            } }
-                        />
-
-
-                        <ColorControl
-                            label = { __('Background Color on Hover') }
-                            value = { button_hover_bg }
-                            onChange = { ( value ) => {
-                                setAttributes( { button_hover_bg: value } );
-                            } }
-                        />
-
-
-                        <ColorControl
-                            label = { __('Color on Hover') }
-                            value = { button_hover_color }
-                            onChange = { ( value ) => {
-                                setAttributes( { button_hover_color: value } );
+                            onChange = { ( product_title_color = "#212121" ) => {
+                                setAttributes( { product_title_color } );
                             } }
                         />
                         
@@ -525,9 +377,14 @@ export class Edit extends Component{
 
             <Fragment>
 
+                {this.renderStyle()}
+
                 <div 
                     id = { uid }
                     className={ classes.join( ' ' ) }
+                    data-desktop={attributes.columns}
+                    data-tablet={attributes.tabletColumns}
+                    data-mobile={attributes.mobileColumns}
                 >
                     <div className = {'woolook-container'}>
 

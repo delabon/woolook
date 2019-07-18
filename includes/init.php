@@ -56,23 +56,7 @@ add_action( 'after_setup_theme', function(){
  * Enqueue frontend + backend.
  */
 add_action( 'enqueue_block_assets', function () {
-	global $woolook_font_list;
 
-	$font_selected = get_option('woolook_font', WOOLOOK_OPTION_FONT );
-
-	if( $font_selected !== 'default' ){
-		$font_data = $woolook_font_list[ $font_selected ];
-
-		// Fonts.
-		wp_enqueue_style(
-			'woolook-google-fonts', 
-			$font_data['url'], 
-			array(),
-			WOOLOOK_VERSION
-		);
-	
-	}
-	
 	// only front
 	if( is_admin() ) return;
 
@@ -127,17 +111,6 @@ add_action( 'enqueue_block_editor_assets', function () {
 		WOOLOOK_VERSION,
 		true 
 	);
-
-	$max_width = get_option('woolook_max_width', WOOLOOK_OPTION_MAX_WIDTH );
-	$font_selected = get_option('woolook_font', WOOLOOK_OPTION_FONT );
-	$font_data = $woolook_font_list[ $font_selected ];
-
-	wp_localize_script( 'woolook-blocks', 'woolook_admin', array(
-		'max_width' => get_option('woolook_max_width', WOOLOOK_OPTION_MAX_WIDTH ),
-		'font_css' => $font_data['css'],
-	));
-
-	$font_selected = get_option('woolook_font', WOOLOOK_OPTION_FONT );
 
 	// Styles.
 	wp_enqueue_style(

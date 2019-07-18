@@ -1,0 +1,99 @@
+@mixin woolook-collection-one {
+    
+    .woolook-collection-one{
+        display: block;
+        font-size: 16px;
+        padding: 2em 0;
+    
+        .woolook-container{
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+    
+        .woolook-title{
+            font-size: 1.7em;
+            margin: 0 0 1.4em 0;
+            padding: 0;
+            line-height: 1.4;
+            display: block;
+            
+            &:before, &:after{
+                display: none;
+            }
+        }
+    
+        .woolook-item{
+            background: #f1f1f1;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            cursor: pointer;
+    
+            > a{
+                position: absolute !important;
+                top: 0 !important;
+                bottom: 0  !important;
+                right: 0 !important;
+                left: 0  !important;
+                text-decoration: none !important;
+                border: 0 !important;
+                outline: 0 !important;
+                box-shadow: none !important;
+            }
+    
+            &:before{
+                content: ' ';
+                display: block !important;
+                position: absolute !important;
+                top: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+    
+                background-color: transparent;
+                background-image: linear-gradient(180deg, rgba(182, 182, 182, 0.2) 0px, rgba(182, 182, 182, 0) 100px);
+            }
+        }
+        
+        .woolook-item-details{
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    
+        .woolook-item-title{
+            font-weight: normal;
+            font-size: 1.3em;
+            padding: 0;
+            line-height: 1.4;
+            color: #212121;
+            letter-spacing: 0.36px;
+        }
+    
+        .woolook-item-count{
+            font-size: 0.95em !important;
+            min-width: 32px;
+            text-align: center;
+            color: #222222;
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 6px 8px;
+        }
+    
+        .woolook-item:hover{
+         
+            .woolook-item-count{
+                color: #fff;
+                background-color: #222222;
+            }
+        }
+    
+    }
+    
+}

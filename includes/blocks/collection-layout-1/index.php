@@ -48,40 +48,85 @@ class Block_Collection_Layout_One {
                         'type' => 'object',
                     ]
                 ),
+
+                'maxColumns' => array(
+                    'type' => 'number',
+                    'default' => 2,
+                ),
     
-                'layout' => array(
+                'columns' => array(
+                    'type' => 'number',
+                    'default' => 2,
+                ),
+
+                'mobileColumns' => array(
                     'type' => 'number',
                     'default' => 1,
                 ),
-
-                'font_size' => array(
+    
+                'tabletColumns' => array(
                     'type' => 'number',
-                    'default' => 5,
+                    'default' => 2,
+                ),
+    
+                'fontSize' => array(
+                    'type' => 'number',
+                    'default' => 16,
+                ),
+                
+                'mobileFontSize' => array(
+                    'type' => 'number',
+                    'default' => 16,
                 ),
 
-                'padding' => array(
+                'tabletFontSize' => array(
                     'type' => 'number',
-                    'default' => 3,
+                    'default' => 16,
+                ),
+
+                'paddingTop' => array(
+                    'type' => 'number',
+                    'default' => 0,
+                ),
+
+                'paddingBottom' => array(
+                    'type' => 'number',
+                    'default' => 0,
+                ),
+
+                'paddingLeft' => array(
+                    'type' => 'number',
+                    'default' => 0,
+                ),
+
+                'paddingRight' => array(
+                    'type' => 'number',
+                    'default' => 0,
+                ),
+
+                'marginTop' => array(
+                    'type' => 'number',
+                    'default' => 0,
+                ),
+
+                'marginBottom' => array(
+                    'type' => 'number',
+                    'default' => 30,
+                ),
+
+                'marginLeft' => array(
+                    'type' => 'number',
+                    'default' => 0,
+                ),
+
+                'marginRight' => array(
+                    'type' => 'number',
+                    'default' => 0,
                 ),
     
                 'currentTab' => array(
                     'type' => 'string',
                     'default' => 'tab1',
-                ),
-    
-                'mobile_columns' => array(
-                    'type' => 'number',
-                    'default' => 1,
-                ),
-    
-                'tablet_columns' => array(
-                    'type' => 'number',
-                    'default' => 2,
-                ),
-    
-                'desktop_columns' => array(
-                    'type' => 'number',
-                    'default' => 3,
                 ),
     
                 'background_type' => array(
@@ -193,59 +238,29 @@ class Block_Collection_Layout_One {
      * @return string
      */
     function renderStyle( $attributes ){
-        global $woolook_font_list;
 
-    	$max_width = get_option('woolook_max_width', WOOLOOK_OPTION_MAX_WIDTH );
-        $font_selected = get_option('woolook_font', WOOLOOK_OPTION_FONT );
-        $font_data = $woolook_font_list[ $font_selected ];
-        $font_size = (int)$attributes['font_size'] / 5;
         $uid = esc_attr($attributes['uid']);
 
         $output = "
-            #{$uid}.woolook-layout-1{
-                padding-top: ".esc_attr($attributes['padding'])."em;
-                padding-bottom: ".esc_attr($attributes['padding'])."em;
-                font-size: {$font_size}em;
+            #{$uid}.woolook-collection-one{
+                padding-top: ".esc_attr($attributes['paddingTop'])."px;
+                padding-bottom: ".esc_attr($attributes['paddingBottom'])."px;
+                padding-left: ".esc_attr($attributes['paddingLeft'])."px;
+                padding-right: ".esc_attr($attributes['paddingRight'])."px;
+                margin-top: ".esc_attr($attributes['marginTop'])."px;
+                margin-bottom: ".esc_attr($attributes['marginBottom'])."px;
+                margin-left: ".esc_attr($attributes['marginLeft'])."px;
+                margin-right: ".esc_attr($attributes['marginRight'])."px;
+                font-size: ".esc_attr($attributes['mobileFontSize'])."px;
                 background-color: ".esc_attr($attributes['background_color']).";
             }
 
-            #{$uid}.woolook-layout-1 .woolook-container{
-                max-width: ".esc_attr($max_width)." !important;
-            }
-
-            #{$uid}.woolook-layout-1 .woolook-title{
+            #{$uid}.woolook-collection-one .woolook-title{
                 color: ".esc_attr($attributes['title_color']).";
             }
 
-            #{$uid}.woolook-layout-1 .woolook-item-title{
+            #{$uid}.woolook-collection-one .woolook-item-title{
                 color: ".esc_attr($attributes['product_title_color']).";
-            }
-
-            #{$uid}.woolook-layout-1 .woolook-item-price{
-                color: ".esc_attr($attributes['price_color']).";
-            }
-
-            #{$uid}.woolook-layout-1 .woolook-item-price ins{
-                color: ".esc_attr($attributes['sale_price_color']).";
-            }
-
-            #{$uid}.woolook-layout-1 .woolook-item-addtocart{
-                color: ".esc_attr($attributes['button_color']).";
-                border-color: ".esc_attr($attributes['button_border_color']).";
-            }
-
-            #{$uid}.woolook-layout-1 .woolook-item-addtocart:hover{
-                color: ".esc_attr($attributes['button_hover_color']).";
-                background: ".esc_attr($attributes['button_hover_bg']).";
-                border-color: ".esc_attr($attributes['button_hover_bg']).";
-            }
-
-            #{$uid}.woolook-layout-1 .woolook-item-reviews .star-rating:before{
-                color: ".esc_attr($attributes['stars_unrated_bg']).";
-            }
-
-            #{$uid}.woolook-layout-1 .woolook-item-reviews .star-rating span:before{
-                color: ".esc_attr($attributes['stars_rated_bg']).";
             }
         ";
 
@@ -254,7 +269,7 @@ class Block_Collection_Layout_One {
             $gradient_orientation = str_replace( '-', ' ', $attributes['gradient_orientation'] );
 
             $output .= "
-                #{$uid}.woolook-layout-1{
+                #{$uid}.woolook-collection-one{
                     background-image: linear-gradient( ".esc_attr($gradient_orientation).", ".esc_attr($attributes['gradient_from']).", ".esc_attr($attributes['gradient_to'])." );
                 }
             ";
@@ -265,7 +280,7 @@ class Block_Collection_Layout_One {
             $bg_attachment = $attributes['background_image_scroll'] ? 'scroll' : 'fixed';
 
             $output .= "
-                #{$uid}.woolook-layout-1{
+                #{$uid}.woolook-collection-one{
                     background-image: url('".esc_url($attributes['background_image_url'])."');
                     background-repeat: ".esc_attr($attributes['background_image_repeat']).";
                     background-attachment: ".esc_attr($bg_attachment).";
@@ -276,6 +291,21 @@ class Block_Collection_Layout_One {
                 }
             ";
         }
+
+        // Breakpoints 
+        $output .= "
+            @media all and (min-width: 768px) {
+                #{$uid}.woolook-collection-one{
+                    font-size: ".esc_attr($attributes['tabletFontSize'])."px;
+                }
+            }
+
+            @media all and (min-width: 992px) {
+                #{$uid}.woolook-collection-one{
+                    font-size:  ".esc_attr($attributes['fontSize'])."px;
+                }
+            }
+        ";
 
         return "<style>{$output}</style>";
     }
@@ -310,7 +340,7 @@ class Block_Collection_Layout_One {
 
             <div class="woolook-item" style="{$style}">
                 <div class="woolook-item-details">
-                    <h3 class="woolook-item-title">{$title}</h3>
+                    <div class="woolook-item-title">{$title}</div>
                     <span class="woolook-item-count">{$count}</span>
                 </div>
 
@@ -339,9 +369,15 @@ HTML;
         $alignment = esc_attr($attributes['alignment']);
         $title = esc_html( $attributes['title'] );
 
+        $columns = esc_attr($attributes['columns']);
+        $tabletColumns = esc_attr($attributes['tabletColumns']);
+        $mobileColumns = esc_attr($attributes['mobileColumns']);
+
         return <<<HTML
             
-            <div id="{$uid}" class="{$classes}">
+            {$style}
+
+            <div id="{$uid}" class="{$classes}" data-desktop="{$columns}" data-tablet="{$tabletColumns}" data-mobile="{$mobileColumns}">
 
                 <div class="woolook-container">
 

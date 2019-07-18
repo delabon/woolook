@@ -270,10 +270,6 @@ export class Edit extends Component{
         } = _self.props.attributes;
 
         let output = `
-
-            .entry-content > #${uid}{
-                max-width: ${woolook_admin.max_width} !important;
-            }
             
             #${uid}.woolook-layout-1{
                 padding-top: ${padding}em;
@@ -284,22 +280,18 @@ export class Edit extends Component{
 
             #${uid}.woolook-layout-1 .woolook-title{
                 color: ${title_color};
-                font-family: ${woolook_admin.font_css}
             }
 
             #${uid}.woolook-layout-1 .woolook-subtitle{
                 color: ${subtitle_color};
-                font-family: ${woolook_admin.font_css}
             }
 
             #${uid}.woolook-layout-1 .woolook-item-title{
                 color: ${product_title_color};
-                font-family: ${woolook_admin.font_css}
             }
 
             #${uid}.woolook-layout-1 .woolook-item-price{
                 color: ${price_color};
-                font-family: ${woolook_admin.font_css}
             }
 
             #${uid}.woolook-layout-1 .woolook-item-price ins{
@@ -309,7 +301,6 @@ export class Edit extends Component{
             #${uid}.woolook-layout-1 .woolook-item-addtocart{
                 color: ${button_color};
                 border-color: ${button_border_color};
-                font-family: ${woolook_admin.font_css}
             }
 
             #${uid}.woolook-layout-1 .woolook-item-addtocart:hover{
