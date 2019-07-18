@@ -9,9 +9,9 @@ Tags: woocommerce blocks, woocommerce grid, woocommerce layout, woocommerce
 
 Woolook is a collection of beautiful Woocommerce blocks.
 
-[See Demo Site](https://delabon.com/demo/woolook/) | [See Screenshots](#Screenshots) | [Support](https://delabon.com/support)
-
 == Description ==
+
+[See Demo Site](https://delabon.com/demo/woolook/) | [See Screenshots](#Screenshots) | [Support](https://delabon.com/support)
 
 Woolook is a collection of beautiful Woocommerce blocks. It's easy and enjoyable to work with.
 
