@@ -68,8 +68,6 @@ Complete guide: [The WordPress codex tutorial](https://codex.wordpress.org/Manag
 4. You should see a list of Woolook blocks.
 5. Click on and of them.
 
-Complete guide: [The WordPress codex tutorial](https://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation)
-
 == More Powerful Plugins ==
 
 * [Sogrid - Gutenberg Blog Grids ( 10 Layouts )](https://wordpress.org/plugins/sogrid/)
