@@ -90,8 +90,9 @@ Create awesome, elegant and perfect galleries easily in your wordpress editor.
 
 == Screenshots ==
 
-1. Layout One Frontend
-2. Layout One Backend
+1. Product Layout One
+2. Collection Layout One
+3. Editor
 
 == Changelog ==
 
