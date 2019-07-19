@@ -11,4 +11,5 @@
 
 import './blocks/layout-1';
 import './blocks/collection-layout-1';
+import './blocks/layout-2';
 

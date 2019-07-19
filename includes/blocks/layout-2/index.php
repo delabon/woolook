@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Block_Layout_One {
+class Block_Layout_Two {
 
     function __construct(){
         add_action( 'init', array( $this, 'init' ) );
@@ -18,7 +18,7 @@ class Block_Layout_One {
      */
     function init(){
 
-        register_block_type( 'woolook/layout-1', array(
+        register_block_type( 'woolook/layout-2', array(
             'attributes' => array(
                 
                 'uid' => array(
@@ -221,22 +221,22 @@ class Block_Layout_One {
 
                 'button_color' => array(
                     'type' => 'string',
-                    'default' => '#6f6e6c',
+                    'default' => '#ffffff',
                 ),
 
-                'button_border_color' => array(
+                'buttonBgColor' => array(
                     'type' => 'string',
-                    'default' => '#dce3e6',
+                    'default' => '#000000',
                 ),
 
                 'button_hover_bg' => array(
                     'type' => 'string',
-                    'default' => '#363636',
+                    'default' => '#fff',
                 ),
 
                 'button_hover_color' => array(
                     'type' => 'string',
-                    'default' => '#fff',
+                    'default' => '#000',
                 ),
 
             ),
@@ -278,6 +278,12 @@ class Block_Layout_One {
                 
                 <div class="woolook-item-thumbnail">
                     <a href="{$permalink}">{$image}</a>
+
+                    <div class="woolook-item-addtocart-container">
+                        <a href="#" class="woolook-item-addtocart" data-id={$product['id']}>
+                            {$btn_trans}
+                        </a>
+                    </div>
                 </div>
 
                 <div class="woolook-item-reviews">{$product['reviews_html']}</div>
@@ -287,10 +293,6 @@ class Block_Layout_One {
                 </div>
 
                 <div class="woolook-item-price">{$product['price_html']}</div>
-                
-                <a href="#" class="woolook-item-addtocart" data-id={$product['id']}>
-                    {$btn_trans}
-                </a>
 
             </div>
 HTML;
@@ -308,7 +310,7 @@ HTML;
      */
     function render( $attributes ) {
 
-        $classes = array( "woolook", "woolook-layout-1" );
+        $classes = array( "woolook", "woolook-layout-2" );
         $classes = implode(' ', $classes );
         $style = $this->renderStyle( $attributes );
         $items = $this->renderItems( $attributes );
@@ -357,7 +359,7 @@ HTML;
         $uid = esc_attr($attributes['uid']);
 
         $output = "
-            #{$uid}.woolook-layout-1{
+            #{$uid}.woolook-layout-2{
                 padding-top: ".esc_attr($attributes['paddingTop'])."px;
                 padding-bottom: ".esc_attr($attributes['paddingBottom'])."px;
                 padding-left: ".esc_attr($attributes['paddingLeft'])."px;
@@ -370,42 +372,42 @@ HTML;
                 background-color: ".esc_attr($attributes['background_color']).";
             }
 
-            #{$uid}.woolook-layout-1 .woolook-title{
+            #{$uid}.woolook-layout-2 .woolook-title{
                 color: ".esc_attr($attributes['title_color']).";
             }
 
-            #{$uid}.woolook-layout-1 .woolook-subtitle{
+            #{$uid}.woolook-layout-2 .woolook-subtitle{
                 color: ".esc_attr($attributes['subtitle_color']).";
             }
 
-            #{$uid}.woolook-layout-1 .woolook-item-title{
+            #{$uid}.woolook-layout-2 .woolook-item-title{
                 color: ".esc_attr($attributes['product_title_color']).";
             }
 
-            #{$uid}.woolook-layout-1 .woolook-item-price{
+            #{$uid}.woolook-layout-2 .woolook-item-price{
                 color: ".esc_attr($attributes['price_color']).";
             }
 
-            #{$uid}.woolook-layout-1 .woolook-item-price ins{
+            #{$uid}.woolook-layout-2 .woolook-item-price ins{
                 color: ".esc_attr($attributes['sale_price_color']).";
             }
 
-            #{$uid}.woolook-layout-1 .woolook-item-addtocart{
+            #{$uid}.woolook-layout-2 .woolook-item-addtocart{
                 color: ".esc_attr($attributes['button_color']).";
-                border-color: ".esc_attr($attributes['button_border_color']).";
+                background-color: ".esc_attr($attributes['buttonBgColor']).";
             }
 
-            #{$uid}.woolook-layout-1 .woolook-item-addtocart:hover{
+            #{$uid}.woolook-layout-2 .woolook-item-addtocart:hover{
                 color: ".esc_attr($attributes['button_hover_color']).";
                 background: ".esc_attr($attributes['button_hover_bg']).";
                 border-color: ".esc_attr($attributes['button_hover_bg']).";
             }
 
-            #{$uid}.woolook-layout-1 .woolook-item-reviews .star-rating:before{
+            #{$uid}.woolook-layout-2 .woolook-item-reviews .star-rating:before{
                 color: ".esc_attr($attributes['stars_unrated_bg']).";
             }
 
-            #{$uid}.woolook-layout-1 .woolook-item-reviews .star-rating span:before{
+            #{$uid}.woolook-layout-2 .woolook-item-reviews .star-rating span:before{
                 color: ".esc_attr($attributes['stars_rated_bg']).";
             }
         ";
@@ -415,7 +417,7 @@ HTML;
             $gradient_orientation = str_replace( '-', ' ', $attributes['gradient_orientation'] );
 
             $output .= "
-                #{$uid}.woolook-layout-1{
+                #{$uid}.woolook-layout-2{
                     background-image: linear-gradient( ".esc_attr($gradient_orientation).", ".esc_attr($attributes['gradient_from']).", ".esc_attr($attributes['gradient_to'])." );
                 }
             ";
@@ -426,7 +428,7 @@ HTML;
             $bg_attachment = $attributes['background_image_scroll'] ? 'scroll' : 'fixed';
 
             $output .= "
-                #{$uid}.woolook-layout-1{
+                #{$uid}.woolook-layout-2{
                     background-image: url('".esc_url($attributes['background_image_url'])."');
                     background-repeat: ".esc_attr($attributes['background_image_repeat']).";
                     background-attachment: ".esc_attr($bg_attachment).";
@@ -441,13 +443,13 @@ HTML;
         // Breakpoints 
         $output .= "
             @media all and (min-width: 768px) {
-                #{$uid}.woolook-layout-1{
+                #{$uid}.woolook-layout-2{
                     font-size: ".esc_attr($attributes['tabletFontSize'])."px;
                 }
             }
 
             @media all and (min-width: 992px) {
-                #{$uid}.woolook-layout-1{
+                #{$uid}.woolook-layout-2{
                     font-size:  ".esc_attr($attributes['fontSize'])."px;
                 }
             }
@@ -460,4 +462,4 @@ HTML;
 }
 
 // exec
-$Block_Layout_One = new Block_Layout_One();
+$Block_Layout_Two = new Block_Layout_Two();

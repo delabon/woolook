@@ -1,5 +1,6 @@
-@mixin woolook-layout-1 {
-    .woolook-layout-1{
+@mixin woolook-layout-2 {
+
+    .woolook-layout-2{
         display: flex;
         flex-wrap: wrap;
         flex-direction: column;
@@ -15,7 +16,6 @@
         .woolook-row{
             margin-left: -15px;
             margin-right: -15px;
-            text-align: center;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
@@ -85,11 +85,13 @@
             padding: 0 15px;
             margin-bottom: 30px;
             flex: 1;
+            position: relative;
         }
     
         .woolook-item-thumbnail{
             margin-bottom: 1.4em;
-    
+            position: relative;
+            
             > a {
                 display: block;
                 text-decoration: none !important;
@@ -103,13 +105,21 @@
                 border: none !important;
                 transition: all 200ms;
             }
-    
-            &:hover img{
-                opacity: 0.7;
+
+            &:hover .woolook-item-addtocart-container{
+                opacity: 1;
+                visibility: visible;
+
+                .woolook-item-addtocart{
+                    margin-top: 0;
+                }
             }
         }
     
         .woolook-item-reviews{
+            position: absolute;
+            top: 15px;
+            left: 30px;
             margin-bottom: 0.5em;
             
             .star-rating{
@@ -163,23 +173,49 @@
             }
         }
     
+        .woolook-item-addtocart-container{
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba( 0, 0, 0, 0.1 );
+            opacity: 0;
+            visibility: hidden;
+            transition: all 200ms ease;
+
+            .added_to_cart.wc-forward{
+                color: white !important;
+                fill: white !important;
+                background: transparent !important;
+                border: 0 !important;
+                box-shadow: none !important;
+                outline: 0 !important;
+                padding: 0 !important;
+                margin: 15px 0 0 !important;
+            }
+
+        }
+
         .woolook-item-addtocart{
             display: inline-block;
-            border: 2px solid #dce3e6;
-            color: #6f6e6c;
-            background: transparent;
+            border: 0;
+            outline: 0 !important;
             font-size: 0.8em;
-            padding: 0 1.2em;
-            line-height: 2;
+            line-height: 1.2 !important;
+            padding: 1em 1.2em !important;
+            margin-top: -50%;
             text-transform: uppercase;
             text-decoration: none !important;
             transition: all 200ms;
-    
-            &:hover{
-                color: #fff;
-                background: #363636;
-                border-color: #363636;
-            }
+            color: white;
+            background: #000;
+            box-shadow: 2px 2px 10px rgba( 255, 255, 255, 0.1 );
+            transition: all 200ms ease;
         }
     
     }

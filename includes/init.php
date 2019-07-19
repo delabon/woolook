@@ -147,6 +147,7 @@ include __DIR__ . '/class-categories.php';
 include __DIR__ . '/class-category-list.php';
 include __DIR__ . '/blocks/layout-1/index.php';
 include __DIR__ . '/blocks/collection-layout-1/index.php';
+include __DIR__ . '/blocks/layout-2/index.php';
 
 new Woolook\Api();
 new Woolook\Ajax();

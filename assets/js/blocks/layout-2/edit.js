@@ -18,8 +18,6 @@ const {
 
 const {
     PanelBody,
-    TabPanel,
-    RangeControl,
 } = wp.components;
 
 const {
@@ -136,6 +134,16 @@ export class Edit extends Component{
                     
                     <div className={'woolook-item-thumbnail'}>
                         <a href = {'javascript:void(0)'} >{image}</a>
+
+                        <div className="woolook-item-addtocart-container">
+                            <a 
+                                href={'javascript:void(0)'} 
+                                className={'woolook-item-addtocart'}
+                                data-id={ product.id }
+                            >
+                                {__('Add To Cart', 'woolook')}
+                            </a>
+                        </div>
                     </div>
 
                     <div 
@@ -152,13 +160,7 @@ export class Edit extends Component{
                         dangerouslySetInnerHTML={{ __html: product.price_html, }}
                     />
 
-                    <a 
-                        href={'javascript:void(0)'} 
-                        className={'woolook-item-addtocart'}
-                        data-id={ product.id }
-                    >
-                        {__('Add To Cart')}
-                    </a>
+
 
                 </div>
             );
@@ -187,14 +189,13 @@ export class Edit extends Component{
             price_color,
             sale_price_color,
             button_color,
-            button_border_color,
             button_hover_bg,
             button_hover_color,
         } = attributes;
 
         let output = `
             
-            #${uid}.woolook-layout-1{
+            #${uid}.woolook-layout-2{
                 padding-top: ${attributes.paddingTop}px;
                 padding-bottom: ${attributes.paddingBottom}px;
                 padding-left: ${attributes.paddingLeft}px;
@@ -207,49 +208,49 @@ export class Edit extends Component{
                 background-color: ${background_color};
             }
 
-            #${uid}.woolook-layout-1 .woolook-title{
+            #${uid}.woolook-layout-2 .woolook-title{
                 color: ${title_color};
             }
 
-            #${uid}.woolook-layout-1 .woolook-subtitle{
+            #${uid}.woolook-layout-2 .woolook-subtitle{
                 color: ${subtitle_color};
             }
 
-            #${uid}.woolook-layout-1 .woolook-item-title{
+            #${uid}.woolook-layout-2 .woolook-item-title{
                 color: ${product_title_color};
             }
 
-            #${uid}.woolook-layout-1 .woolook-item-price{
+            #${uid}.woolook-layout-2 .woolook-item-price{
                 color: ${price_color};
             }
 
-            #${uid}.woolook-layout-1 .woolook-item-price ins{
+            #${uid}.woolook-layout-2 .woolook-item-price ins{
                 color: ${sale_price_color};
             }
 
-            #${uid}.woolook-layout-1 .woolook-item-addtocart{
+            #${uid}.woolook-layout-2 .woolook-item-addtocart{
                 color: ${button_color};
-                border-color: ${button_border_color};
+                background-color: ${attributes.buttonBgColor};
             }
 
-            #${uid}.woolook-layout-1 .woolook-item-addtocart:hover{
+            #${uid}.woolook-layout-2 .woolook-item-addtocart:hover{
                 color: ${button_hover_color};
                 background: ${button_hover_bg};
                 border-color: ${button_hover_bg};
             }
 
-            #${uid}.woolook-layout-1 .woolook-item-reviews .star-rating:before{
+            #${uid}.woolook-layout-2 .woolook-item-reviews .star-rating:before{
                 color: ${stars_unrated_bg};
             }
 
-            #${uid}.woolook-layout-1 .woolook-item-reviews .star-rating span:before{
+            #${uid}.woolook-layout-2 .woolook-item-reviews .star-rating span:before{
                 color: ${stars_rated_bg};
             }
         `;
 
         if( background_type === 'gradient' ){
             output += `
-                #${uid}.woolook-layout-1{
+                #${uid}.woolook-layout-2{
                     background-image: linear-gradient( ${gradient_orientation.replace('-', ' ')}, ${gradient_from}, ${gradient_to} );
                 }
             `;
@@ -257,7 +258,7 @@ export class Edit extends Component{
 
         else if( background_type === 'image' ){
             output += `
-                #${uid}.woolook-layout-1{
+                #${uid}.woolook-layout-2{
                     background-image: url('${ background_image_url }');
                     background-repeat: ${ background_image_repeat };
                     background-attachment: ${ background_image_scroll ? 'scroll' : 'fixed' };
@@ -272,13 +273,13 @@ export class Edit extends Component{
         // Breakpoints 
         output += `
             @media all and (min-width: 768px) {
-                #${attributes.uid}.woolook-layout-1{
+                #${attributes.uid}.woolook-layout-2{
                     font-size: ${attributes.tabletFontSize}px;
                 }
             }
 
             @media all and (min-width: 992px) {
-                #${attributes.uid}.woolook-layout-1{
+                #${attributes.uid}.woolook-layout-2{
                     font-size: ${attributes.fontSize}px;
                 }
             }
@@ -329,12 +330,11 @@ export class Edit extends Component{
             price_color,
             sale_price_color,
             button_color,
-            button_border_color,
             button_hover_bg,
             button_hover_color,
         } = attributes;
 
-		const classes = [ 'woolook', 'woolook-layout-1' ];
+		const classes = [ 'woolook', 'woolook-layout-2' ];
 
         if ( products && ! products.length ) {
             classes.push( 'is-loading' );
@@ -358,12 +358,12 @@ export class Edit extends Component{
                 <InspectorControls key = {'inspector'} > 
 
                     <PanelBody
-                        title={ __('Select Categories') }
+                        title={ __('Select Categories', 'woolook') }
                         initialOpen={ true }
                     >
                             
                         <SearchListControl 
-                            label={ __('Select Categories') }
+                            label={ __('Select Categories', 'woolook') }
                             className={ "woolook-categories" }
                             list = { cat_list } 
                             selected = { categories }
@@ -508,21 +508,20 @@ export class Edit extends Component{
                     >
 
                         <ColorControl
+                            label = { __('Background Color') }
+                            value = { attributes.buttonBgColor }
+                            onChange = { ( buttonBgColor ) => {
+                                setAttributes( { buttonBgColor } );
+                            } }
+                        />
+
+                        <ColorControl
                             label = { __('Color') }
                             value = { button_color }
                             onChange = { ( value ) => {
                                 setAttributes( { button_color: value } );
                             } }
                         />
-
-                        <ColorControl
-                            label = { __('Border Color') }
-                            value = { button_border_color }
-                            onChange = { ( value ) => {
-                                setAttributes( { button_border_color: value } );
-                            } }
-                        />
-
 
                         <ColorControl
                             label = { __('Background Color on Hover') }

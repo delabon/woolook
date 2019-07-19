@@ -45,11 +45,6 @@ class Admin{
      * Render the admin page
      */
     function render_admin_page(){
-        global $woolook_font_list;
-
-        $max_width = get_option('woolook_max_width', WOOLOOK_OPTION_MAX_WIDTH );
-        $font_selected = get_option('woolook_font', WOOLOOK_OPTION_FONT );
-
         require_once __DIR__ . '/views/panel.php';
     }
 

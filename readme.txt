@@ -2,7 +2,7 @@
 Requires at least: 5.0
 Tested up to: 5.2
 Requires PHP: 5.4
-Stable tag: 1.1.1
+Stable tag: 1.2.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Tags: woocommerce blocks, woocommerce grid, woocommerce layout, woocommerce
@@ -11,18 +11,17 @@ Woolook is a collection of beautiful Woocommerce blocks.
 
 == Description ==
 
-[See Demo Site](https://delabon.com/demo/woolook/) | [See Screenshots](#Screenshots) | [Support](https://delabon.com/support)
+[See Demo Site](https://delabon.com/demo/woolook/) | [See Screenshots](#screenshots) | [Support](https://delabon.com/support)
 
 Woolook is a collection of beautiful Woocommerce blocks. It's easy and enjoyable to work with.
 
 Download now and start creating beautiful looking store with ease and without typing a single line of code.
 
-**BLOCKS :**
+== Blocks (More Coming) ==
 
-1. Layout One ( Products ).
-2. Collection One ( Categories ).
-
-**More Coming...**
+* Layout Two ( New ).
+* Collection One ( New ).
+* Layout One ( Products ).
 
 == Features ==
 
@@ -39,7 +38,7 @@ Download now and start creating beautiful looking store with ease and without ty
 
 * [Sogrid - Gutenberg Blog Grids ( 10 Layouts )](https://wordpress.org/plugins/sogrid/)
 
-A collection of beautiful, customizable WordPress grid blocks.
+A collection of beautiful, customizable WordPress grid blocks. 10 blocks and more coming!
 
 * [Woomotiv - Woocommerce Notifications - Sales Popups - Reviews Popups ](https://delabon.com/plugin/woomotiv-woocommerce-sales-popups)
 
@@ -69,6 +68,11 @@ Create awesome, elegant and perfect galleries easily in your wordpress editor.
 2. Layout One Backend
 
 == Changelog ==
+
+= 1.2.0 =
+
+* Feature: New block ( Layout Two ).
+* Bugs: Fixed product title css issues. 
 
 = 1.1.1 =
 
