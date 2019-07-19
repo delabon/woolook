@@ -1,4 +1,4 @@
-=== Woolook - Woocommerce Blocks | Product Grids ===
+=== Woolook - Woocommerce Blocks | Woocommerce Page Builder ===
 Requires at least: 5.0
 Tested up to: 5.2
 Requires PHP: 5.4
@@ -7,23 +7,29 @@ License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Tags: woocommerce blocks, woocommerce grid, woocommerce layout, woocommerce
 
-Woolook is a collection of beautiful Woocommerce blocks.
+Woolook is a collection of beautiful Woocommerce blocks. It is like a Woocommerce page builder. But more fun and painless.
 
 == Description ==
 
 [See Demo Site](https://delabon.com/demo/woolook/) | [See Screenshots](#screenshots) | [Support](https://delabon.com/support)
 
-Woolook is a collection of beautiful Woocommerce blocks. It's easy and enjoyable to work with.
+Create beautiful shop pages for you Woocommerce site. No more code, shortcodes and complicated page builders. It's easy and fun to use. Create pages in minutes from your Wordpress Editor. It's **PAINLESS!**
 
-Download now and start creating beautiful looking store with ease and without typing a single line of code.
+[Download now](#installation) and start creating beautiful looking store **TODAY!**
 
-== Blocks (More Coming) ==
+== Woocommerce Blocks? ==
 
-* Layout Two ( New ).
-* Collection One ( New ).
-* Layout One ( Products ).
+Wordpress 5 came with a new editor called Gutenberg. This editor simplifies the creation of pages and posts by replacing shortcodes and custom HTML by Blocks. 
 
-== Features ==
+Woolook is a collection of beautiful Woocommerce blocks. It’s easy and enjoyable to work with. Display your products and categories on posts and pages!
+
+**Blocks (More Coming)**
+
+* Layout Two: Display products by categories ( New ).
+* Collection One: Display your best categories ( New ).
+* Layout One: Display products by categories.
+
+== Top Features ==
 
 * Responsive & Mobile Ready ( + Control Settings ) 
 * Unlimited Colors
@@ -33,6 +39,36 @@ Download now and start creating beautiful looking store with ease and without ty
 * Easy to Use
 * Getting Started Guide.
 * More....
+
+== Getting Started ==
+
+= Automatic installation =
+
+1. Log in to your WordPress dashboard.
+2. Navigate to "Plugins > Add New".
+3. In the search field type "woolook" and click Search Plugins. 
+4. Install it by simply clicking "Install Now".
+5. Click on "Activate".
+
+= Manual installation =
+
+1. Download the plugin.
+2. Upload the plugin folder using an FTP/SFTP software to your wordpress/wp-content/plugins folder.
+3. Navigate to "Plugins".
+4. Scroll Down until your find "Woolook" plugin in the list.
+5. Click on "Activate".
+
+Complete guide: [The WordPress codex tutorial](https://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation)
+
+= Adding Your First Block =
+
+1. Create or open a new page/post.
+2. Click on the "plus" button.
+3. Search for "Woolook"
+4. You should see a list of Woolook blocks.
+5. Click on and of them.
+
+Complete guide: [The WordPress codex tutorial](https://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation)
 
 == More Powerful Plugins ==
 
@@ -53,14 +89,6 @@ A Woocommerce plugin that displays your product recent customers next to the Add
 Create awesome, elegant and perfect galleries easily in your wordpress editor.
 
 * [Check my Woocommerce plugins](https://delabon.com/store)
-
-== Installation ==
-**Only Wordpress 5+**
-
-1. Upload the plugin folder using an FTP/SFTP software to your wordpress/wp-content/plugins folder.
-2. Or search for "woolook" from your Dashboard > Plugins > Add Plugin
-3. Click on "Install"
-4. Click on "Activate"	
 
 == Screenshots ==
 
