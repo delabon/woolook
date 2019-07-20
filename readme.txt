@@ -1,4 +1,5 @@
 === Woolook - Woocommerce Blocks | Woocommerce Page Builder ===
+Contributors: delabon
 Requires at least: 5.0
 Tested up to: 5.2
 Requires PHP: 5.4
@@ -66,7 +67,7 @@ Complete guide: [The WordPress codex tutorial](https://codex.wordpress.org/Manag
 2. Click on the "plus" button.
 3. Search for "Woolook"
 4. You should see a list of Woolook blocks.
-5. Click on and of them.
+5. Click on one of them.
 
 == More Powerful Plugins ==
 
