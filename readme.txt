@@ -15,7 +15,8 @@ Woolook is a collection of beautiful Woocommerce blocks. It is like a Woocommerc
 [See Demo Site](https://delabon.com/demo/woolook/) | [See Screenshots](#screenshots) | [Support](https://delabon.com/support)
 
 Woolook is a collection of beautiful Woocommerce blocks. The default blocks design that comes with Woocommerce feels outdated. 
-That is why, I have designed and developed Woolook. So you can beautiful shop pages for your Woocommerce website. 
+
+That is why, I have designed and developed Woolook. So you can create beautiful shop pages for your Woocommerce website. 
 
 No more code, shortcodes and complicated page builders. 
 
@@ -72,7 +73,7 @@ Complete guide: [The WordPress codex tutorial](https://codex.wordpress.org/Manag
 
 == More Powerful Plugins ==
 
-* [Sogrid - Gutenberg Blog Grids ( 10 Layouts )](https://wordpress.org/plugins/sogrid/)
+* [Sogrid - Wordpress Post Grid ( 10 Layouts )](https://wordpress.org/plugins/sogrid/)
 
 A collection of beautiful, customizable WordPress grid blocks. 10 blocks and more coming!
 
