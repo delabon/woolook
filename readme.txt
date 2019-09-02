@@ -1,4 +1,4 @@
-=== Woolook - Woocommerce Blocks | Woocommerce Page Builder ===
+=== Woocommerce Blocks - Woolook ===
 Contributors: delabon
 Requires at least: 5.0
 Tested up to: 5.2
@@ -14,17 +14,18 @@ Woolook is a collection of beautiful Woocommerce blocks. It is like a Woocommerc
 
 [See Demo Site](https://delabon.com/demo/woolook/) | [See Screenshots](#screenshots) | [Support](https://delabon.com/support)
 
-Create beautiful shop pages for you Woocommerce site. No more code, shortcodes and complicated page builders. It's easy and fun to use. Create pages in minutes from your Wordpress Editor. It's **PAINLESS!**
+Woolook is a collection of beautiful Woocommerce blocks. The default blocks design that comes with Woocommerce feels outdated. 
+That is why, I have designed and developed Woolook. So you can beautiful shop pages for your Woocommerce website. 
+
+No more code, shortcodes and complicated page builders. 
+
+It's easy and fun to use. Create pages in minutes from your Wordpress Editor. It's **PAINLESS!**
+
+Display your products and categories on posts and pages!
 
 [Download now](#installation) and start creating beautiful looking store **TODAY!**
 
-== Woocommerce Blocks? ==
-
-Wordpress 5 came with a new editor called Gutenberg. This editor simplifies the creation of pages and posts by replacing shortcodes and custom HTML by Blocks. 
-
-Woolook is a collection of beautiful Woocommerce blocks. It’s easy and enjoyable to work with. Display your products and categories on posts and pages!
-
-**Blocks (More Coming)**
+== Woocommerce Blocks ==
 
 * Layout Two: Display products by categories ( New ).
 * Collection One: Display your best categories ( New ).
@@ -75,9 +76,9 @@ Complete guide: [The WordPress codex tutorial](https://codex.wordpress.org/Manag
 
 A collection of beautiful, customizable WordPress grid blocks. 10 blocks and more coming!
 
-* [Woomotiv - Woocommerce Notifications - Sales Popups - Reviews Popups ](https://delabon.com/plugin/woomotiv-woocommerce-sales-popups)
+* [Woomotiv - Sales Proof Notification for Woocommerce](https://delabon.com/store/sales-notification-for-woocommerce)
 
-Boost your woocommerce sales using this social proof plugin. Woomotiv displays recent sales notifications to your visitors to make your site trustworthy.
+Boost your woocommerce sales using this social proof plugin. Woomotiv displays recent sales / reviews notification to your future customers.
 
 * [Faceproof - Boost Woocommerce Sales Instantly](https://www.templatemonster.com/wordpress-plugins/faceproof-wordpress-plugin-83241.html)
 
