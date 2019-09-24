@@ -77,19 +77,74 @@ $desktop:960px;
 // 
 // Inspector :: Categories Control
 // 
-.woolook-categories-list{
+
+.woolook-first-time{
     background: #f1f1f1;
+    padding: 20px;
+
+    .woolook-search {
+        margin-bottom: 15px;
+    }
 }
 
-.woolook-categories-list > [role=menu] {
+.woolook-search > span {
+    margin: 0 10px;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.woolook-search-selected{
+    margin: 18px 0;
+    overflow: hidden;
+}
+
+.woolook-search-selected div{
+    background: #ddd;
+    color: #222;
+    margin: 3px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    overflow: hidden;
+    border-radius: 3px;
+}
+
+.woolook-search-selected span{
+    padding: 0 4px;
+}
+
+.woolook-search-selected button{
+    background: #0d77b7;
+    color: white;
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    font-size: 18px !important;
+    margin: 0 !important; 
+    padding: 0 4px !important;
+    cursor: pointer;
+}
+
+.woolook-search-selected button:hover{
+    background: #ff2b56;
+    color: white;
+}
+
+.woolook-search-field {
+    margin-bottom: 0px !important;
+}
+
+.woolook-search-list > [role=menu] {
     border: 1px solid #e2e4e7;
-    border-bottom: none;
     max-height: 200px;
     overflow-x: auto;
     padding: 0;
 }
 
-.woolook-categories-item{
+.woolook-search-list .components-button{
     display: flex;
     align-items: center;
     margin-bottom: 0;
@@ -97,6 +152,8 @@ $desktop:960px;
     background: #fff;
     color: #555d66;
     outline: none;
+    border-bottom: 1px solid #e9e9e9;
+    font-size: 13px;
 
     &:hover{
         color: #191e23;
@@ -104,27 +161,9 @@ $desktop:960px;
         box-shadow: none;
     }
 
-    &[data-depth="0"],
-    &[data-depth="0"]:hover{
-        border-top: 1px solid #e2e4e7 !important;
+    &:last-child{
+        border-bottom: 0;
     }
-
-    &[data-depth="1"] .woolook-categories-item-label:before{
-        content: ' -- ';
-    }
-
-    &[data-depth="2"] .woolook-categories-item-label:before{
-        content: ' ---- ';
-    }
-
-    &[data-depth="3"] .woolook-categories-item-label:before{
-        content: ' ------ ';
-    }
-
-    &[data-depth="4"] .woolook-categories-item-label:before{
-        content: ' -------- ';
-    }
-
 }
 
 // 

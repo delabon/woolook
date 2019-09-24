@@ -18,8 +18,6 @@ const {
 
 const {
     PanelBody,
-    TabPanel,
-    RangeControl,
 } = wp.components;
 
 const {
@@ -363,13 +361,29 @@ export class Edit extends Component{
                     >
                             
                         <SearchListControl 
-                            label={ __('Select Categories') }
-                            className={ "woolook-categories" }
+                            label_selected_items = { __('Selected Categories', 'woolook') }
+                            label_clear_all = { __('Clear All', 'woolook') }
+                            label_search_input = { __('Search for categories to select', 'woolook') }
                             list = { cat_list } 
                             selected = { categories }
-                            onChange= { ( value = [] ) => {
+                            onChange = { ( value = [] ) => {
                                 setAttributes( { categories: value } );
-                            } }
+                            }}
+                            onSearch = { ( query ) => {
+
+                                apiFetch({
+                                    path: addQueryArgs( '/woolook/v1/category_list', {
+                                        'query' : query
+                                    }),
+                                })
+                                .then( ( list ) => {
+                                    self.setState( { cat_list: list, loading: false } );
+                                })
+                                .catch( () => {
+                                    self.setState( { cat_list: [], loading: false } );
+                                });
+
+                            }}
                         ></SearchListControl>
 
                     </PanelBody>

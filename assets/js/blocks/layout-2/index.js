@@ -9,7 +9,7 @@ const { registerBlockType } = wp.blocks;
 
 registerBlockType( 'woolook/layout-2', {
 
-	title: __( 'Woolook - Layout Two' ), 
+	title: __( 'Products by Category Style 2', 'woolook' ), 
 	
 	icon: BlockIcon, 
 	

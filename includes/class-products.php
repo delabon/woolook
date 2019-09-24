@@ -26,14 +26,43 @@ class Products{
             return new \WP_Error( 'Woocommerce_Required', __( "Woocommerce Required", "woolook" ) );
         }
 
-        $products = wc_get_products( array(
-            'status' => 'publish',
-			'limit' => $this->prepare_limit_for_query(),
-			'category' => $this->prepare_categories_for_query(),
-        ) );
+		if( isset( $this->atts['products_ids'] ) ){
+
+			$products = $this->get_products_custom_query();
+		}
+		else{
+
+			$products = wc_get_products( array(
+				'status' => 'publish',
+				'limit' => $this->prepare_limit_for_query(),
+				'category' => $this->prepare_categories_for_query(),
+			) );
+		}
 
         return $this->prepare_products_response( $products );
-    }
+	}
+	
+	/**
+	 * Get products using wpdb (used by Hand-picked products blocks)
+	 *
+	 * @return array
+	 */
+	protected function get_products_custom_query(){
+		global $wpdb;
+
+		$post_table = $wpdb->prefix . "posts";
+
+		$ids = $this->prepare_ids_for_query();
+
+		$sql = "SELECT ID FROM $post_table";
+		$sql .= " WHERE ID IN (". $ids .")";
+		$sql .= " AND post_type = 'product' AND post_status = 'publish'";
+		$sql .= " ORDER BY FIND_IN_SET(id,'". $ids ."')"; // disables auto order
+		
+		return array_map(function( $item ){
+			return wc_get_product( $item->ID );
+		}, $wpdb->get_results( $sql ));
+	}
 
     /**
      * Prepare products response
@@ -183,10 +212,34 @@ HTML;
 	/**
 	 * Prepare limit for query.
 	 *
-	 * @return array
+	 * @return int
 	 */
 	protected function prepare_limit_for_query(){
+		
+		if( ! isset( $this->atts['limit'] ) ){
+			return -1;
+		}
+
 		return (int)$this->atts['limit'];
 	}
-    
+
+	/**
+	 * Prepare ids for query
+	 *
+	 * @return array
+	 */
+	protected function prepare_ids_for_query(){
+
+		$ids = array();
+
+		if( is_array( $this->atts['products_ids'] ) ){
+
+			foreach ( $this->atts['products_ids'] as $item ) {
+				$ids[] = $item['id'];
+			}
+		}
+				
+		return implode( ',', $ids );
+	}
+
 }

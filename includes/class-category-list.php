@@ -24,43 +24,24 @@ class CategoryList{
 	public function get_items() {
 
 		$taxonomy = 'product_cat';
-        $categoryHierarchy = array();        
-        $query_result = get_terms( array(
+        $args = array(
             'taxonomy' => $taxonomy,
-            'hide_empty' => false,
-        ) );
-        
-        $this->sort_terms_hierarchicaly( $query_result, $categoryHierarchy );
-        return $this->sort_terms_for_response( $categoryHierarchy, 0 );
+            'hide_empty' => true,
+            'number' => 20,
+        );
+
+        if( isset( $this->atts['query'] ) ){
+            $args['name__like'] = esc_sql( $this->atts['query'] );
+        }
+
+        return $this->prepare_for_response( get_terms( $args ) );
 	}
 
     /**
-     * Recursively sort an array of taxonomy terms hierarchically. Child categories will be
-     * placed under a 'children' member of their parent term.
-     * @param Array   $cats     taxonomy term objects to sort
-     * @param Array   $into     result array to put them in
-     * @param integer $parentId the current parent ID to put them in
+     * Prepare terms for response
+     * @param Array $cats taxonomy term objects to sort
      */
-    private function sort_terms_hierarchicaly( Array &$cats, Array &$into, $parentId = 0 ){
-        foreach ($cats as $i => $cat) {
-            if ($cat->parent == $parentId) {
-                $into[$cat->term_id] = $cat;
-                unset($cats[$i]);
-            }
-        }
-
-        foreach ($into as $topCat) {
-            $topCat->children = array();
-            $this->sort_terms_hierarchicaly($cats, $topCat->children, $topCat->term_id);
-        }
-    }
-
-    /**
-     * Recursively sort an array of taxonomy terms hierarchically.
-     * @param Array   $cats     taxonomy term objects to sort
-     * @param int   $depth     result array to put them in
-     */
-    private function sort_terms_for_response( $cats, $depth ){
+    private function prepare_for_response( $cats ){
 
         $response = array();
 
@@ -68,12 +49,10 @@ class CategoryList{
 
             $termArr = $term->to_array();
             $termArr['id'] = $term->term_id;
-            $termArr['depth'] = $depth;
-            $response[] = $termArr; // added
+            $termArr['name'] = $term->name;
+            $termArr['slug'] = $term->slug;
 
-            if( count( $term->children ) ){
-                $response = array_merge( $response, $this->sort_terms_for_response( $term->children, $depth + 1 ) );
-            }
+            $response[] = $termArr; // added
         }
 
         return $response;

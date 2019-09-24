@@ -12,8 +12,10 @@ const {
 } = wp.element;
 
 const {
-    MenuGroup, MenuItem
+    MenuGroup, MenuItem, TextControl
 } = wp.components;
+
+const { apiFetch } = wp;
 
 const getInteractionIcon = ( isSelected = false ) => {
 	return isSelected ? <IconCheckChecked /> : <IconCheckUnchecked />;
@@ -35,7 +37,7 @@ export class SearchListControl extends Component {
      * @param {object} item 
      */
 	onSelect( item ) {
-
+        
         const { onChange, selected } = this.props;
         
         if ( this.isSelected( item ) ) {
@@ -43,7 +45,7 @@ export class SearchListControl extends Component {
             return;
         }
 
-        onChange( [ ...selected, { id: item.id, slug: item.slug } ] );
+        onChange( [ ...selected, { id: item.id, slug: item.slug, name: item.name } ] );
     }
 
     /**
@@ -105,14 +107,52 @@ export class SearchListControl extends Component {
     }
 
     render() {
-        const { className = '', label } = this.props;
-        
+        const self = this;
+        const { onSearch, selected, onChange } = this.props;
+                
         return (
-            <MenuGroup
-                className={ `${className}-list` }
-            >
-                { this.renderList() }
-            </MenuGroup>
+
+            <div className = { `woolook-search` }>
+
+                <strong>
+                    { this.props.label_selected_items }
+                </strong>
+
+                <span onClick = { () => onChange([]) }>
+                    { this.props.label_clear_all }
+                </span>
+                
+                <div 
+                    className = { `woolook-search-selected` }
+                >
+                    { selected.map(function( item ){
+                        return (
+                            <div>
+                                <span>{item.name}</span>
+                                
+                                <button 
+                                    onClick = { (e) => {
+                                        self.onRemove( item ) 
+                                    }}
+                                >
+                                    &times;
+                                </button>
+                            </div>
+                        );
+                    })}
+                </div>
+                                
+                <TextControl
+                    label = { this.props.label_search_input }
+                    className = { `woolook-search-field` }
+                    onChange = { onSearch }
+                />
+                    
+                <MenuGroup className={ `woolook-search-list` }>
+                    { this.renderList() }
+                </MenuGroup>
+
+            </div>
         );
     }
 }

@@ -290,19 +290,29 @@ export class Edit extends Component{
                     >
                             
                         <SearchListControl 
-                            label={ __('Select Categories') }
-                            className={ "woolook-categories" }
+                            label_selected_items = { __('Selected Categories', 'woolook') }
+                            label_clear_all = { __('Clear All', 'woolook') }
+                            label_search_input = { __('Search for categories to select', 'woolook') }
                             list = { cat_list } 
                             selected = { categories }
-                            onChange= { ( value = [] ) => {
+                            onChange = { ( value = [] ) => {
+                                setAttributes( { categories: value } );
+                            }}
+                            onSearch = { ( query ) => {
 
-                                if( value.length > 3 ){
-                                    alert(__('You cannot add more than 3', 'woolook'));
-                                    return false;
-                                }
+                                apiFetch({
+                                    path: addQueryArgs( '/woolook/v1/category_list', {
+                                        'query' : query
+                                    }),
+                                })
+                                .then( ( list ) => {
+                                    self.setState( { cat_list: list, loading: false } );
+                                })
+                                .catch( () => {
+                                    self.setState( { cat_list: [], loading: false } );
+                                });
 
-                                return setAttributes( { categories: value } );
-                            } }
+                            }}
                         ></SearchListControl>
 
                     </PanelBody>

@@ -35,14 +35,15 @@ export class Edit extends Component{
 
         this.state = {
             'loading': false,
-            'cat_list': [],
-            'products': [],
+            'search_list': [],
+            'products_to_display': [],
         };
         
         this.generateID = this.generateID.bind( this );
-        this.getProducts = this.getProducts.bind( this );
+        this.getDisplayProducts = this.getDisplayProducts.bind( this );
         this.getRows = this.getRows.bind( this );
         this.renderStyle = this.renderStyle.bind( this );
+        this.getSearchList = this.getSearchList.bind( this );
     }
 
 	componentDidMount() {
@@ -51,28 +52,30 @@ export class Edit extends Component{
 
         self.generateID();
 
-        // Loads categories
+        // fetch products and add them to the search list
         apiFetch({
-            path: addQueryArgs( '/woolook/v1/category_list', {} ),
+            path: addQueryArgs( '/woolook/v1/product_list', {
+                limit: 20,
+            }),
         })
-        .then( ( list ) => {
-            self.setState( { cat_list: list, loading: false } );
+        .then( ( list ) => {            
+            self.setState( { search_list: list, loading: false } );
         })
         .catch( () => {
-            self.setState( { cat_list: [], loading: false } );
+            self.setState( { search_list: [], loading: false } );
         });
 
-        // Loads products
-		self.getProducts();
+        // Load products to display
+		self.getDisplayProducts();
 	}
 
 	componentDidUpdate( prevProps ) {
         if( 
-            prevProps.attributes[ 'categories' ] !== this.props.attributes[ 'categories' ]
+            prevProps.attributes[ 'products' ] !== this.props.attributes[ 'products' ]
             ||
             prevProps.attributes[ 'columns' ] !== this.props.attributes[ 'columns' ]
         ){
-            this.getProducts();
+            this.getDisplayProducts();
         }
     }
     
@@ -93,32 +96,31 @@ export class Edit extends Component{
         }
     }
 
-    getProducts(){
+    getDisplayProducts(){
         const self = this;
         
 		apiFetch({
 			path: addQueryArgs( '/woolook/v1/products', {
-                categories: self.props.attributes.categories,
+                products_ids: self.props.attributes.products,
                 layout: self.props.attributes.layout,
-                limit: self.props.attributes.columns,
             }),
         })
         .then( ( products ) => {
-            self.setState( { products: products, loading: false } );
+            self.setState( { products_to_display: products, loading: false } );
         })
         .catch( () => {
-            self.setState({ products: [], loading: true });
+            self.setState({ products_to_display: [], loading: true });
         });
     }
 
     getRows(){
 
         let self = this;
-        const { products } = self.state;
+        const { products_to_display } = self.state;
         const { desktop_columns } = self.props.attributes;
         const imagePlaceHolder = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==";
 
-        return products.slice(0, desktop_columns).map(function( product ){
+        return products_to_display.slice(0, desktop_columns).map(function( product ){
 
             let image = null;
 
@@ -134,16 +136,6 @@ export class Edit extends Component{
                     
                     <div className={'woolook-item-thumbnail'}>
                         <a href = {'javascript:void(0)'} >{image}</a>
-
-                        <div className="woolook-item-addtocart-container">
-                            <a 
-                                href={'javascript:void(0)'} 
-                                className={'woolook-item-addtocart'}
-                                data-id={ product.id }
-                            >
-                                {__('Add To Cart', 'woolook')}
-                            </a>
-                        </div>
                     </div>
 
                     <div 
@@ -160,7 +152,13 @@ export class Edit extends Component{
                         dangerouslySetInnerHTML={{ __html: product.price_html, }}
                     />
 
-
+                    <a 
+                        href={'javascript:void(0)'} 
+                        className={'woolook-item-addtocart'}
+                        data-id={ product.id }
+                    >
+                        {__('Add To Cart', 'woolook')}
+                    </a>
 
                 </div>
             );
@@ -189,13 +187,14 @@ export class Edit extends Component{
             price_color,
             sale_price_color,
             button_color,
+            button_border_color,
             button_hover_bg,
             button_hover_color,
         } = attributes;
 
         let output = `
             
-            #${uid}.woolook-layout-2{
+            #${uid}.woolook-layout-1{
                 padding-top: ${attributes.paddingTop}px;
                 padding-bottom: ${attributes.paddingBottom}px;
                 padding-left: ${attributes.paddingLeft}px;
@@ -208,49 +207,49 @@ export class Edit extends Component{
                 background-color: ${background_color};
             }
 
-            #${uid}.woolook-layout-2 .woolook-title{
+            #${uid}.woolook-layout-1 .woolook-title{
                 color: ${title_color};
             }
 
-            #${uid}.woolook-layout-2 .woolook-subtitle{
+            #${uid}.woolook-layout-1 .woolook-subtitle{
                 color: ${subtitle_color};
             }
 
-            #${uid}.woolook-layout-2 .woolook-item-title{
+            #${uid}.woolook-layout-1 .woolook-item-title{
                 color: ${product_title_color};
             }
 
-            #${uid}.woolook-layout-2 .woolook-item-price{
+            #${uid}.woolook-layout-1 .woolook-item-price{
                 color: ${price_color};
             }
 
-            #${uid}.woolook-layout-2 .woolook-item-price ins{
+            #${uid}.woolook-layout-1 .woolook-item-price ins{
                 color: ${sale_price_color};
             }
 
-            #${uid}.woolook-layout-2 .woolook-item-addtocart{
+            #${uid}.woolook-layout-1 .woolook-item-addtocart{
                 color: ${button_color};
-                background-color: ${attributes.buttonBgColor};
+                border-color: ${button_border_color};
             }
 
-            #${uid}.woolook-layout-2 .woolook-item-addtocart:hover{
+            #${uid}.woolook-layout-1 .woolook-item-addtocart:hover{
                 color: ${button_hover_color};
                 background: ${button_hover_bg};
                 border-color: ${button_hover_bg};
             }
 
-            #${uid}.woolook-layout-2 .woolook-item-reviews .star-rating:before{
+            #${uid}.woolook-layout-1 .woolook-item-reviews .star-rating:before{
                 color: ${stars_unrated_bg};
             }
 
-            #${uid}.woolook-layout-2 .woolook-item-reviews .star-rating span:before{
+            #${uid}.woolook-layout-1 .woolook-item-reviews .star-rating span:before{
                 color: ${stars_rated_bg};
             }
         `;
 
         if( background_type === 'gradient' ){
             output += `
-                #${uid}.woolook-layout-2{
+                #${uid}.woolook-layout-1{
                     background-image: linear-gradient( ${gradient_orientation.replace('-', ' ')}, ${gradient_from}, ${gradient_to} );
                 }
             `;
@@ -258,7 +257,7 @@ export class Edit extends Component{
 
         else if( background_type === 'image' ){
             output += `
-                #${uid}.woolook-layout-2{
+                #${uid}.woolook-layout-1{
                     background-image: url('${ background_image_url }');
                     background-repeat: ${ background_image_repeat };
                     background-attachment: ${ background_image_scroll ? 'scroll' : 'fixed' };
@@ -273,13 +272,13 @@ export class Edit extends Component{
         // Breakpoints 
         output += `
             @media all and (min-width: 768px) {
-                #${attributes.uid}.woolook-layout-2{
+                #${attributes.uid}.woolook-layout-1{
                     font-size: ${attributes.tabletFontSize}px;
                 }
             }
 
             @media all and (min-width: 992px) {
-                #${attributes.uid}.woolook-layout-2{
+                #${attributes.uid}.woolook-layout-1{
                     font-size: ${attributes.fontSize}px;
                 }
             }
@@ -291,13 +290,44 @@ export class Edit extends Component{
         );
     }
 
+    getSearchList(){
+
+        let self = this;
+
+        return(            
+            <SearchListControl 
+                label_selected_items = { __('Selected Products', 'woolook') }
+                label_clear_all = { __('Clear All', 'woolook') }
+                label_search_input = { __('Search for products to select', 'woolook') }
+                list = { self.state.search_list } 
+                selected = { self.props.attributes.products }
+                onChange = { ( value = [] ) => {
+                    self.props.setAttributes({ products: value });
+                }}
+                onSearch = { ( query ) => {
+    
+                    apiFetch({
+                        path: addQueryArgs( '/woolook/v1/product_list', {
+                            'query' : query
+                        }),
+                    })
+                    .then( ( list ) => {
+                        self.setState( { search_list: list, loading: false } );
+                    })
+                    .catch( () => {
+                        self.setState( { search_list: [], loading: false } );
+                    });
+    
+                }}
+            ></SearchListControl>
+        );
+    }
+
     render(){
 
         const self = this;
 
-        const { cat_list, products, loading } = self.state;
-
-        if( loading ){
+        if( self.state.loading ){
             return __('Loading...', 'woolook');
         }
 
@@ -307,88 +337,46 @@ export class Edit extends Component{
             isSelected,
         } = self.props;
 
-        const {
-            uid,
-            title,
-            subtitle,
-            categories,
-            alignment,
-            background_type,
-            background_color,
-            gradient_orientation,
-            gradient_from,
-            gradient_to,
-            background_image_url,
-            background_image_id,
-            background_image_repeat,
-            background_image_scroll,
-            stars_unrated_bg,
-            stars_rated_bg,
-            title_color,
-            subtitle_color,
-            product_title_color,
-            price_color,
-            sale_price_color,
-            button_color,
-            button_hover_bg,
-            button_hover_color,
-        } = attributes;
+		const classes = [ 'woolook', 'woolook-layout-1' ];
 
-		const classes = [ 'woolook', 'woolook-layout-2' ];
-
-        if ( products && ! products.length ) {
+        if( self.state.products && ! self.state.products.length ) {
             classes.push( 'is-loading' );
+        }
+
+        if( attributes.is_first_time ){
+            return (
+                <div className="woolook-first-time">
+                    {self.getSearchList()}
+                    <button 
+                        className={"button button-primary"}
+                        onClick={ (e) => setAttributes({ is_first_time: false }) }
+                    >{__('Done', 'woolook')}</button>
+                </div>
+            )
         }
         
         return [
 
             isSelected && (
     
-                <BlockControls key = { 'controls' }>
+                <BlockControls>
                     <AlignmentToolbar
-                        value={alignment}
-                        onChange={ ( nextAlign ) => setAttributes( { alignment: nextAlign } ) }
+                        value={ attributes.alignment }
+                        onChange={ ( alignment ) => setAttributes({ alignment }) }
                     />
                 </BlockControls>
     
             ),
-    
+
             isSelected && (
-    
-                <InspectorControls key = {'inspector'} > 
+
+                <InspectorControls> 
 
                     <PanelBody
-                        title={ __('Select Categories', 'woolook') }
+                        title={ __('Products', 'woolook') }
                         initialOpen={ true }
                     >
-                            
-                        <SearchListControl 
-                            label={ __('Select Categories') }
-                            label_selected_items = { __('Selected Categories', 'woolook') }
-                            label_clear_all = { __('Clear All', 'woolook') }
-                            label_search_input = { __('Search for categories to select', 'woolook') }
-                            list = { cat_list } 
-                            selected = { categories }
-                            onChange = { ( value = [] ) => {
-                                setAttributes( { categories: value } );
-                            }}
-                            onSearch = { ( query ) => {
-
-                                apiFetch({
-                                    path: addQueryArgs( '/woolook/v1/category_list', {
-                                        'query' : query
-                                    }),
-                                })
-                                .then( ( list ) => {
-                                    self.setState( { cat_list: list, loading: false } );
-                                })
-                                .catch( () => {
-                                    self.setState( { cat_list: [], loading: false } );
-                                });
-
-                            }}
-                        ></SearchListControl>
-
+                        {self.getSearchList()}
                     </PanelBody>
                     
                     <ResponsiveSettings attributes={attributes} setAttributes={setAttributes} />
@@ -403,39 +391,39 @@ export class Edit extends Component{
                         <BackgroundControl
                             className={ "woolook" }
 
-                            type = { background_type }
+                            type = { attributes.background_type }
                             onTypeChange = { ( value = 'color' ) => {
                                 setAttributes( { background_type: value } );
                             }}
                             
-                            color = { background_color }
+                            color = { attributes.background_color }
                             onColorChange = { ( value = '#fff' ) => {
                                 setAttributes( { background_color: value } );
                             }}
 
-                            gradient_orientation = { gradient_orientation }
+                            gradient_orientation = { attributes.gradient_orientation }
                             onGradientOrientationChange = { ( value = 'to right top' ) => {
                                 setAttributes( { gradient_orientation: value } );
                             }}
 
-                            gradient_from = { gradient_from }
+                            gradient_from = { attributes.gradient_from }
                             onGradientFromChange = { ( value = '#fff' ) => {
                                 setAttributes( { gradient_from: value } );
                             }}
 
-                            gradient_to = { gradient_to }
+                            gradient_to = { attributes.gradient_to }
                             onGradientToChange = { ( value = '#fff' ) => {
                                 setAttributes( { gradient_to: value } );
                             }}
 
-                            image_url = { background_image_url }
-                            image_id = { background_image_id }
+                            image_url = { attributes.background_image_url }
+                            image_id = { attributes.background_image_id }
                             onImageChange = { ( media ) => setAttributes( { background_image_url: media.url, background_image_id: media.id } ) }
 
-                            image_repeat = { background_image_repeat }
+                            image_repeat = { attributes.background_image_repeat }
                             onImageRepeatChange = { ( value = 'no-repeat' ) => setAttributes( { background_image_repeat: value } ) }
 
-                            image_scroll = { background_image_scroll }
+                            image_scroll = { attributes.background_image_scroll }
                             onImageScrollChange = { ( value = false ) => setAttributes( { background_image_scroll: value } ) }
 
                         ></BackgroundControl>
@@ -449,7 +437,7 @@ export class Edit extends Component{
                         
                         <ColorControl
                             label = { __('Unrated') }
-                            value = { stars_unrated_bg }
+                            value = { attributes.stars_unrated_bg }
                             onChange = { ( value = "rgba( 0, 0, 0, 0.16 )" ) => {
                                 setAttributes( { stars_unrated_bg: value } );
                             } }
@@ -457,7 +445,7 @@ export class Edit extends Component{
 
                         <ColorControl
                             label = { __('Rated') }
-                            value = { stars_rated_bg }
+                            value = { attributes.stars_rated_bg }
                             onChange = { ( value = "rgba( 0, 0, 0, 0.5 )" ) => {
                                 setAttributes( { stars_rated_bg: value } );
                             } }
@@ -472,7 +460,7 @@ export class Edit extends Component{
 
                         <ColorControl
                             label = { __('Title Color') }
-                            value = { title_color }
+                            value = { attributes.title_color }
                             onChange = { ( value = "#212121" ) => {
                                 setAttributes( { title_color: value } );
                             } }
@@ -480,7 +468,7 @@ export class Edit extends Component{
 
                         <ColorControl
                             label = { __('Subtitle Color') }
-                            value = { subtitle_color }
+                            value = { attributes.subtitle_color }
                             onChange = { ( value = "#212121" ) => {
                                 setAttributes( { subtitle_color: value } );
                             } }
@@ -488,7 +476,7 @@ export class Edit extends Component{
 
                         <ColorControl
                             label = { __('Product Title Color') }
-                            value = { product_title_color }
+                            value = { attributes.product_title_color }
                             onChange = { ( value = "#212121" ) => {
                                 setAttributes( { product_title_color: value } );
                             } }
@@ -503,7 +491,7 @@ export class Edit extends Component{
 
                         <ColorControl
                             label = { __('Color') }
-                            value = { price_color }
+                            value = { attributes.price_color }
                             onChange = { ( value = "#212121" ) => {
                                 setAttributes( { price_color: value } );
                             } }
@@ -511,7 +499,7 @@ export class Edit extends Component{
 
                         <ColorControl
                             label = { __('Sale Price Color') }
-                            value = { sale_price_color }
+                            value = { attributes.sale_price_color }
                             onChange = { ( value = "#212121" ) => {
                                 setAttributes( { sale_price_color: value } );
                             } }
@@ -525,33 +513,33 @@ export class Edit extends Component{
                     >
 
                         <ColorControl
-                            label = { __('Background Color') }
-                            value = { attributes.buttonBgColor }
-                            onChange = { ( buttonBgColor ) => {
-                                setAttributes( { buttonBgColor } );
-                            } }
-                        />
-
-                        <ColorControl
                             label = { __('Color') }
-                            value = { button_color }
+                            value = { attributes.button_color }
                             onChange = { ( value ) => {
                                 setAttributes( { button_color: value } );
                             } }
                         />
 
                         <ColorControl
-                            label = { __('Background Color on Hover') }
-                            value = { button_hover_bg }
+                            label = { __('Border Color') }
+                            value = { attributes.button_border_color }
                             onChange = { ( value ) => {
-                                setAttributes( { button_hover_bg: value } );
+                                setAttributes( { button_border_color: value } );
                             } }
                         />
 
 
                         <ColorControl
+                            label = { __('Background Color on Hover') }
+                            value = { attributes.button_hover_bg }
+                            onChange = { ( value ) => {
+                                setAttributes( { button_hover_bg: value } );
+                            } }
+                        />
+
+                        <ColorControl
                             label = { __('Color on Hover') }
-                            value = { button_hover_color }
+                            value = { attributes.button_hover_color }
                             onChange = { ( value ) => {
                                 setAttributes( { button_hover_color: value } );
                             } }
@@ -567,7 +555,7 @@ export class Edit extends Component{
                 { self.renderStyle() }
 
                 <div 
-                    id = { uid }
+                    id = { attributes.uid }
                     className={ classes.join( ' ' ) }
                     data-desktop={attributes.columns}
                     data-tablet={attributes.tabletColumns}
@@ -575,13 +563,13 @@ export class Edit extends Component{
                 >
                     <div className = {'woolook-container'}>
 
-                        <div className = {'woolook-header'} style = {{ 'text-align' : alignment }}>
+                        <div className = {'woolook-header'} style = {{ 'text-align' : attributes.alignment }}>
 
                             <RichText
                                 tagName = { 'h2' }
                                 className = { 'woolook-title' }
-                                value = { title }
-                                placeholder = { title }
+                                value = { attributes.title }
+                                placeholder = { attributes.title }
                                 onChange = { ( newtext ) => setAttributes( { title: newtext } ) }
                                 keepPlaceholderOnFocus = { true }
                                 isSelected = { false }
@@ -590,8 +578,8 @@ export class Edit extends Component{
                             <RichText
                                 tagName = { 'span' }
                                 className = { 'woolook-subtitle' }
-                                value = { subtitle }
-                                placeholder = { subtitle }
+                                value = { attributes.subtitle }
+                                placeholder = { attributes.subtitle }
                                 onChange = { ( newtext ) => setAttributes( { subtitle: newtext } ) }
                                 keepPlaceholderOnFocus = { true }
                                 isSelected = { false }

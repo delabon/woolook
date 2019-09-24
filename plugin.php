@@ -5,7 +5,7 @@
  * Description: Present your Woocommerce products and categories beautifully on your homepage or any page.
  * Author: Sabri Taieb
  * Author URI: https://delabon.com/
- * Version: 1.2.0
+ * Version: 1.5.0
  */
 
 // Exit if accessed directly.
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'WOOLOOK_VERSION', '1.2.0' );
+define( 'WOOLOOK_VERSION', '1.5.0' );
 define( 'WOOLOOK_URL', plugins_url( '',__FILE__) );
 define( 'WOOLOOK_PATH', __DIR__ );
 

@@ -99,6 +99,16 @@ Create awesome, elegant and perfect galleries easily in your wordpress editor.
 
 == Changelog ==
 
+= 1.5.0 =
+
+* New: New Hand-picked products block.
+* Updated: re-created the select categories Component (Much easier to use)
+    - Added search field
+    - Added selected categories section
+    - Ability to clear all selected categories
+* Updated: Tranlasion file.
+* Bugs: Fixed many bugs.
+
 = 1.2.0 =
 
 * Feature: New block ( Layout Two ).

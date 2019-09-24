@@ -7,18 +7,18 @@ import { Edit } from './edit';
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks; 
 
-registerBlockType( 'woolook/collection-layout-1', {
-	
-	title: __( 'Categories', 'woolook' ), 
+registerBlockType( 'woolook/hand-picked-products', {
 
+	title: __( 'Hand-picked Products', 'woolook' ), 
+	
 	icon: BlockIcon, 
 	
 	category: 'woolook',
 
 	keywords: [
-		__( 'category' ),
+		__( 'woolook' ),
 		__( 'woocommerce' ),
-		__( 'collection' ),
+		__( 'product' ),
 	],
 
 	supports: {

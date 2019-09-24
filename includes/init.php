@@ -145,9 +145,11 @@ include __DIR__ . '/class-admin.php';
 include __DIR__ . '/class-products.php';
 include __DIR__ . '/class-categories.php';
 include __DIR__ . '/class-category-list.php';
+include __DIR__ . '/class-product-list.php';
 include __DIR__ . '/blocks/layout-1/index.php';
 include __DIR__ . '/blocks/collection-layout-1/index.php';
 include __DIR__ . '/blocks/layout-2/index.php';
+include __DIR__ . '/blocks/hand-picked-products/index.php';
 
 new Woolook\Api();
 new Woolook\Ajax();

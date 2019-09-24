@@ -32,6 +32,16 @@ class Api{
 
 		register_rest_route(
 			$this->namespace,
+			'/product_list',
+			array(
+				'methods'             => 'GET',
+				'callback'            => array( $this, 'get_product_list' ),
+                'permission_callback' => function () { return true; /* its public */ },
+			)
+        );
+
+		register_rest_route(
+			$this->namespace,
 			'/products',
 			array(
 				'methods'             => 'GET',
@@ -62,6 +72,24 @@ class Api{
     }
 
     /**
+     * Get Product List (used for settings)
+     *
+     * @return \WP_REST_Response
+     */
+    public function get_product_list( $request ){
+
+        if( ! class_exists('Woocommerce') ) {
+            return new \WP_Error( 'Woocommerce_Required', __( "Woocommerce Required", "woolook" ) );
+        }
+
+		$products = new Product_List( $request->get_params() );
+        $response = new \WP_REST_Response( $products->get_products() );
+        $response->set_status(200);
+    
+        return $response;
+    }
+
+    /**
      * Get Products
      *
      * @return \WP_REST_Response
@@ -80,7 +108,7 @@ class Api{
     }
     
     /**
-     * Get Products
+     * Get Category List (used for settings)
      *
      * @return \WP_REST_Response
      */

@@ -1,0 +1,187 @@
+@mixin woolook-layout-1 {
+    .woolook-layout-1{
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        font-size: 16px;
+        padding: 2em 0;
+    
+        .woolook-container{
+            margin: 0 auto;
+            padding: 0 15px;
+            max-width: 100%;
+        }
+    
+        .woolook-row{
+            margin-left: -15px;
+            margin-right: -15px;
+            text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+    
+        .woolook-item-reviews{
+        
+            .star-rating{
+                overflow: hidden;
+                position: relative;
+                height: 1em;
+                line-height: 1;
+                font-size: 12px;
+                width: 5.4em;
+                font-family: star;
+    
+                &:before {
+                    content: '\53\53\53\53\53';
+                    opacity: 1;
+                    float: left;
+                    top: 0;
+                    left: 0;
+                    position: absolute;
+                    color: rgba( 0, 0, 0, 0.16 );
+                }
+    
+                span {
+                    float: left;
+                    left: 0;
+                    overflow: hidden;
+                    padding-top: 1.5em;
+                    position: absolute;
+                    top: 0;
+    
+                    &:before {
+                        content: '\53\53\53\53\53';
+                        top: 0;
+                        position: absolute;
+                        left: 0;
+                        color: rgba( 0, 0, 0, 0.5 );
+                    }
+                }
+            }
+    
+        }
+    
+        .woolook-title,
+        .woolook-subtitle{
+            font-size: 1.7em;
+            margin: 0 0 0 0;
+            padding: 0;
+            line-height: 1.4;
+            display: block;
+            
+            &:before, &:after{
+                display: none;
+            }
+        }
+    
+        .woolook-subtitle{
+            font-size: 1.2em;
+            margin: 0 0 1.5em 0;
+        }
+    
+        // Products
+        .woolook-item{
+            padding: 0 15px;
+            margin-bottom: 30px;
+            flex: 1;
+        }
+    
+        .woolook-item-thumbnail{
+            margin-bottom: 1.4em;
+    
+            > a {
+                display: block;
+                text-decoration: none !important;
+                border: 0 !important;
+                outline: 0 !important;
+            }
+    
+            img{
+                display: block;
+                max-width: 100%;
+                border: none !important;
+                transition: all 200ms;
+            }
+    
+            &:hover img{
+                opacity: 0.7;
+            }
+        }
+    
+        .woolook-item-reviews{
+            margin-bottom: 0.5em;
+            
+            .star-rating{
+                margin: 0 auto;
+            }
+        }
+    
+        .woolook-item-title{
+            font-size: 1.1em;
+            font-weight: normal;
+            margin: 0 0 0.3em 0;
+            line-height: 1.4;
+            color: #212121;
+    
+            > a {
+                display: block;
+                color: inherit !important;
+                text-decoration: none !important;
+                border: 0 !important;
+            }
+    
+            &:hover > a{
+                opacity: 0.7;
+                color: inherit !important;
+            }
+        }
+    
+        .woolook-item-desc{
+            font-size: 0.9em;
+            margin: 0 0 10px 0;
+            line-height: 1.4;
+            margin-bottom: 0.5em;
+        }
+    
+        .woolook-item-price{
+            margin-bottom: 1em;
+            line-height: 1.1;
+            font-size: 1em;
+            font-family: inherit;
+    
+            del{
+                background: transparent;
+                font-size: 0.85em;
+                margin: 0 0.2em;
+            }
+    
+            ins{
+                background: transparent;
+                text-decoration: none;
+                color: red;
+            }
+        }
+    
+        .woolook-item-addtocart{
+            display: inline-block;
+            border: 2px solid #dce3e6;
+            color: #6f6e6c;
+            background: transparent;
+            font-size: 0.8em;
+            padding: 0 1.2em;
+            line-height: 2;
+            text-transform: uppercase;
+            text-decoration: none !important;
+            transition: all 200ms;
+    
+            &:hover{
+                color: #fff;
+                background: #363636;
+                border-color: #363636;
+            }
+        }
+    
+    }
+    
+}
