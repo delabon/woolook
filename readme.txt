@@ -3,7 +3,7 @@ Contributors: delabon
 Requires at least: 5.0
 Tested up to: 5.2
 Requires PHP: 5.4
-Stable tag: 1.2.0
+Stable tag: 1.7.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Tags: woocommerce blocks, woocommerce grid, woocommerce layout, woocommerce
@@ -12,11 +12,11 @@ Woolook is a collection of beautiful Woocommerce blocks. It is like a Woocommerc
 
 == Description ==
 
-[See Demo Site](https://delabon.com/demo/woolook/) | [See Screenshots](#screenshots) | [Support](https://delabon.com/support)
+[v1.7.0 Huge Update](#developers) | [See Demo Site](https://delabon.com/demo/woolook/) | [See Screenshots](#screenshots) | [Support](https://delabon.com/support)
 
 Woolook is a collection of beautiful Woocommerce blocks. The default blocks design that comes with Woocommerce feels outdated. 
 
-That is why, I have designed and developed Woolook. So you can create beautiful shop pages for your Woocommerce website. 
+That is why, I have designed and developed Woolook. So you can create beautiful shop pages for your Woocommerce website. Also, you can add Woolook blocks (products) to your articles (posts) and pages.
 
 No more code, shortcodes and complicated page builders. 
 
@@ -28,19 +28,24 @@ Display your products and categories on posts and pages!
 
 == Woocommerce Blocks ==
 
-* Layout Two: Display products by categories ( New ).
-* Collection One: Display your best categories ( New ).
-* Layout One: Display products by categories.
+* Hand-picked products (New)
+* Products by category (Style 1)
+* Products by category (Style 2)
+* Categories (Collection style 1)
 
 == Top Features ==
 
 * Responsive & Mobile Ready ( + Control Settings ) 
+* Columns By Device (Desktop, Tablet, Mobile)
+* Font Size By Device (Desktop, Tablet, Mobile)
 * Unlimited Colors
 * Ton of Settings 
-* Multiple Categories 
+* Multiple Categories
 * No Shortcodes
 * Easy to Use
-* Getting Started Guide.
+* Getting Started Guide
+* GDPR compliance
+* PHP 7 compatible
 * More....
 
 == Getting Started ==
@@ -99,13 +104,16 @@ Create awesome, elegant and perfect galleries easily in your wordpress editor.
 
 == Changelog ==
 
-= 1.5.0 =
+= 1.7.0 =
 
 * New: New Hand-picked products block.
+* New: Ability to show/hide block title & subtitle.
 * Updated: re-created the select categories Component (Much easier to use)
     - Added search field
     - Added selected categories section
     - Ability to clear all selected categories
+* New: Added posts limit for blocks (Products by category 1 & 2)
+* Updated: Reviews will be hidden for products that have no reviews yet.
 * Updated: Tranlasion file.
 * Bugs: Fixed many bugs.
 

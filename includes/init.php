@@ -139,6 +139,7 @@ add_filter( 'block_categories', function ( $categories, $post ) {
 
 // include
 include __DIR__ . '/array-font-list.php';
+include __DIR__ . '/class-helpers.php';
 include __DIR__ . '/class-api.php';
 include __DIR__ . '/class-ajax.php';
 include __DIR__ . '/class-admin.php';

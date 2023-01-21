@@ -26,6 +26,11 @@ class Block_Collection_Layout_One {
                     'default' => '',
                 ),
 
+                'is_first_time' => array(
+                    'type' => 'boolean',
+                    'default' => true,
+                ),
+                
                 'loaded' => array(
                     'type' => 'boolean',
                     'default' => false,
@@ -34,6 +39,11 @@ class Block_Collection_Layout_One {
                 'title' => array(
                     'type' => 'string',
                     'default' => 'Our New Collection',
+                ),
+
+                'is_title_visible' => array(
+                    'type' => 'boolean',
+                    'default' => false,
                 ),
 
                 'alignment' => array(
@@ -53,10 +63,10 @@ class Block_Collection_Layout_One {
                     'type' => 'number',
                     'default' => 2,
                 ),
-    
+
                 'columns' => array(
                     'type' => 'number',
-                    'default' => 2,
+                    'default' => 3,
                 ),
 
                 'mobileColumns' => array(
@@ -68,7 +78,7 @@ class Block_Collection_Layout_One {
                     'type' => 'number',
                     'default' => 2,
                 ),
-    
+
                 'fontSize' => array(
                     'type' => 'number',
                     'default' => 16,
@@ -267,12 +277,12 @@ HTML;
         $style = $this->renderStyle( $attributes );
         $items = $this->renderItems( $attributes );
         $uid = esc_attr($attributes['uid']);
-        $alignment = esc_attr($attributes['alignment']);
-        $title = esc_html( $attributes['title'] );
 
         $columns = esc_attr($attributes['columns']);
         $tabletColumns = esc_attr($attributes['tabletColumns']);
         $mobileColumns = esc_attr($attributes['mobileColumns']);
+
+        $titles_markup = Helpers::render_block_titles($attributes);
 
         return <<<HTML
             
@@ -282,11 +292,7 @@ HTML;
 
                 <div class="woolook-container">
 
-                    <div class="woolook-header" style="text-align: {$alignment};" >
-
-                        <h2 class="woolook-title">{$title}</h2>
-
-                    </div>
+                    {$titles_markup}
 
                     <div class="woolook-items">{$items}</div>
                     

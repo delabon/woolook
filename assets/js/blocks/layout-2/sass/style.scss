@@ -43,6 +43,13 @@
             }
         }
 
+        &[data-mobile="5"]{
+            .woolook-item{
+                flex-basis: 20%;
+                max-width: 20%;
+            }
+        }
+
     }
 
 }
@@ -79,6 +86,13 @@
             }
         }
 
+        &[data-tablet="5"]{
+            .woolook-item{
+                flex-basis: 20%;
+                max-width: 20%;
+            }
+        }
+
     }
 
 }
@@ -112,6 +126,13 @@
             .woolook-item{
                 flex-basis: 25%;
                 max-width: 25%;
+            }
+        }
+
+        &[data-desktop="5"]{
+            .woolook-item{
+                flex-basis: 20%;
+                max-width: 20%;
             }
         }
 

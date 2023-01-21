@@ -26,6 +26,16 @@ class Block_Layout_Two {
                     'default' => '',
                 ),
 
+                'is_first_time' => array(
+                    'type' => 'boolean',
+                    'default' => true,
+                ),
+                
+                'postsLimit' => array(
+                    'type' => 'number',
+                    'default' => 6,
+                ),
+    
                 'loaded' => array(
                     'type' => 'boolean',
                     'default' => false,
@@ -194,6 +204,16 @@ class Block_Layout_Two {
                     'default' => 'rgba( 0, 0, 0, 0.5 )',
                 ),
 
+                'is_title_visible' => array(
+                    'type' => 'boolean',
+                    'default' => false,
+                ),
+
+                'is_subtitle_visible' => array(
+                    'type' => 'boolean',
+                    'default' => true,
+                ),
+                
                 'title_color' => array(
                     'type' => 'string',
                     'default' => '#212121',
@@ -255,7 +275,7 @@ class Block_Layout_Two {
     function renderItems( $attributes ){
 
         $products = new Products(array(
-            'limit' => (int)$attributes['columns'],
+            'limit' => (int)$attributes['postsLimit'],
             'categories' => $attributes['categories'] // this will be sanitized inside the Products class
         ));
 
@@ -315,13 +335,12 @@ HTML;
         $style = $this->renderStyle( $attributes );
         $items = $this->renderItems( $attributes );
         $uid = esc_attr($attributes['uid']);
-        $alignment = esc_attr($attributes['alignment']);
-        $title = esc_html( $attributes['title'] );
-        $subtitle = esc_html( $attributes['subtitle'] );
 
         $columns = esc_attr($attributes['columns']);
         $tabletColumns = esc_attr($attributes['tabletColumns']);
         $mobileColumns = esc_attr($attributes['mobileColumns']);
+
+        $titles_markup = Helpers::render_block_titles($attributes);
 
         return <<<HTML
             
@@ -330,14 +349,8 @@ HTML;
             <div id="{$uid}" class="{$classes}" data-desktop="{$columns}" data-tablet="{$tabletColumns}" data-mobile="{$mobileColumns}">
 
                 <div class="woolook-container">
-
-                    <div class="woolook-header" style="text-align: {$alignment};" >
-
-                        <h2 class="woolook-title">{$title}</h2>
-
-                        <span class="woolook-subtitle">{$subtitle}</span>
-
-                    </div>
+    
+                    {$titles_markup}
 
                     <div class="woolook-row">{$items}</div>
                     

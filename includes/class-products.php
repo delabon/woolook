@@ -18,7 +18,7 @@ class Products{
     /**
      * Get Products
      *
-     * @return \WP_REST_Response
+     * @return array
      */
     public function get_products(){
 
@@ -154,6 +154,11 @@ class Products{
     protected function get_product_reviews( $product ){
 
 		$average = $product->get_average_rating();
+
+		if( $average == 0 ){
+			return '';
+		}
+
 		$text = sprintf(__( 'Rated %s out of 5', 'woolook' ), $average);
 		$width = ( ( $average / 5 ) * 100 );
 		$trans = __( 'out of 5', 'woolook' );

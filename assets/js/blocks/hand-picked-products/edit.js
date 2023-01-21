@@ -18,6 +18,7 @@ const {
 
 const {
     PanelBody,
+    ToggleControl,
 } = wp.components;
 
 const {
@@ -117,10 +118,9 @@ export class Edit extends Component{
 
         let self = this;
         const { products_to_display } = self.state;
-        const { desktop_columns } = self.props.attributes;
         const imagePlaceHolder = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==";
 
-        return products_to_display.slice(0, desktop_columns).map(function( product ){
+        return products_to_display.map(function( product ){
 
             let image = null;
 
@@ -431,6 +431,59 @@ export class Edit extends Component{
                     </PanelBody>
 
                     <PanelBody
+                        title={ __('Titles Settings') }
+                        initialOpen={ false }
+                    >
+
+                        <ToggleControl
+                            label = { __('Show/Hide Block Title', 'woolook') }
+                            help = { attributes.is_title_visible ? 'Visible' : 'Hidden' }
+                            checked={ attributes.is_title_visible }
+                            onChange = { ( value = true ) => {
+                                setAttributes( { is_title_visible: value } );
+                            } }
+                        />
+
+                        <ToggleControl
+                            label = { __('Show/Hide Block Subtitle', 'woolook') }
+                            help = { attributes.is_subtitle_visible ? 'Visible' : 'Hidden' }
+                            checked={ attributes.is_subtitle_visible }
+                            onChange = { ( value = true ) => {
+                                setAttributes( { is_subtitle_visible: value } );
+                            } }
+                        />
+
+                        { attributes.is_title_visible && (
+                            <ColorControl
+                                label = { __('Block Title Color', 'woolook') }
+                                value = { attributes.title_color }
+                                onChange = { ( value = "#212121" ) => {
+                                    setAttributes( { title_color: value } );
+                                } }
+                            />
+                        )}
+
+                        { attributes.is_subtitle_visible && (
+                            <ColorControl
+                                label = { __('Block Subtitle Color', 'woolook') }
+                                value = { attributes.subtitle_color }
+                                onChange = { ( value = "#212121" ) => {
+                                    setAttributes( { subtitle_color: value } );
+                                } }
+                            />
+                        ) }
+
+                        <ColorControl
+                            label = { __('Product Title Color') }
+                            value = { attributes.product_title_color }
+                            onChange = { ( value = "#212121" ) => {
+                                setAttributes( { product_title_color: value } );
+                            } }
+                        />
+                        
+                    </PanelBody>
+
+                    <PanelBody
                         title={ __('Stars Settings') }
                         initialOpen={ false }
                     >
@@ -448,37 +501,6 @@ export class Edit extends Component{
                             value = { attributes.stars_rated_bg }
                             onChange = { ( value = "rgba( 0, 0, 0, 0.5 )" ) => {
                                 setAttributes( { stars_rated_bg: value } );
-                            } }
-                        />
-                        
-                    </PanelBody>
-
-                    <PanelBody
-                        title={ __('Titles Settings') }
-                        initialOpen={ false }
-                    >
-
-                        <ColorControl
-                            label = { __('Title Color') }
-                            value = { attributes.title_color }
-                            onChange = { ( value = "#212121" ) => {
-                                setAttributes( { title_color: value } );
-                            } }
-                        />
-
-                        <ColorControl
-                            label = { __('Subtitle Color') }
-                            value = { attributes.subtitle_color }
-                            onChange = { ( value = "#212121" ) => {
-                                setAttributes( { subtitle_color: value } );
-                            } }
-                        />
-
-                        <ColorControl
-                            label = { __('Product Title Color') }
-                            value = { attributes.product_title_color }
-                            onChange = { ( value = "#212121" ) => {
-                                setAttributes( { product_title_color: value } );
                             } }
                         />
                         
@@ -565,25 +587,30 @@ export class Edit extends Component{
 
                         <div className = {'woolook-header'} style = {{ 'text-align' : attributes.alignment }}>
 
-                            <RichText
-                                tagName = { 'h2' }
-                                className = { 'woolook-title' }
-                                value = { attributes.title }
-                                placeholder = { attributes.title }
-                                onChange = { ( newtext ) => setAttributes( { title: newtext } ) }
-                                keepPlaceholderOnFocus = { true }
-                                isSelected = { false }
-                            />
+                            {attributes.is_title_visible && (
+                                <RichText
+                                    tagName = { 'h2' }
+                                    className = { 'woolook-title' }
+                                    value = { attributes.title }
+                                    placeholder = { attributes.title }
+                                    onChange = { ( newtext ) => setAttributes( { title: newtext } ) }
+                                    keepPlaceholderOnFocus = { true }
+                                    isSelected = { false }
+                                />
+                            )}
 
-                            <RichText
-                                tagName = { 'span' }
-                                className = { 'woolook-subtitle' }
-                                value = { attributes.subtitle }
-                                placeholder = { attributes.subtitle }
-                                onChange = { ( newtext ) => setAttributes( { subtitle: newtext } ) }
-                                keepPlaceholderOnFocus = { true }
-                                isSelected = { false }
-                            />
+                            {attributes.is_subtitle_visible && (
+                                <RichText
+                                    tagName = { 'span' }
+                                    className = { 'woolook-subtitle' }
+                                    value = { attributes.subtitle }
+                                    placeholder = { attributes.subtitle }
+                                    onChange = { ( newtext ) => setAttributes( { subtitle: newtext } ) }
+                                    keepPlaceholderOnFocus = { true }
+                                    isSelected = { false }
+                                />
+                            )}
+
 
                         </div>
 

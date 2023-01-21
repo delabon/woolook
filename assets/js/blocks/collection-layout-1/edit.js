@@ -18,6 +18,7 @@ const {
 
 const {
     PanelBody,
+    ToggleControl,
 } = wp.components;
 
 const {
@@ -43,6 +44,7 @@ export class Edit extends Component{
         this.getItems = this.getItems.bind( this );
         this.renderCategory = this.renderCategory.bind( this );
         this.renderStyle = this.renderStyle.bind( this );
+        this.getSearchList = this.getSearchList.bind( this );
     }
 
 	componentDidMount() {
@@ -221,6 +223,40 @@ export class Edit extends Component{
         );
     }
 
+
+    getSearchList(){
+        
+        let self = this;
+
+        return(
+            <SearchListControl 
+                label_selected_items = { __('Selected Categories', 'woolook') }
+                label_clear_all = { __('Clear All', 'woolook') }
+                label_search_input = { __('Search for categories to select', 'woolook') }
+                list = { self.state.cat_list } 
+                selected = { self.props.attributes.categories }
+                onChange = { ( value = [] ) => {
+                    self.props.setAttributes( { categories: value } );
+                }}
+                onSearch = { ( query ) => {
+    
+                    apiFetch({
+                        path: addQueryArgs( '/woolook/v1/category_list', {
+                            'query' : query
+                        }),
+                    })
+                    .then( ( list ) => {
+                        self.setState( { cat_list: list, loading: false } );
+                    })
+                    .catch( () => {
+                        self.setState( { cat_list: [], loading: false } );
+                    });
+    
+                }}
+            ></SearchListControl>
+        )
+    }
+
     render(){
 
         const self = this;
@@ -267,6 +303,18 @@ export class Edit extends Component{
             itemsOutput = <div className = {'woolook-items'}>{items.map( item => this.renderCategory( item ) )}</div>;
         }
 
+        if( attributes.is_first_time ){
+            return (
+                <div className="woolook-first-time">
+                    {self.getSearchList()}
+                    <button 
+                        className={"button button-primary"}
+                        onClick={ (e) => setAttributes({ is_first_time: false }) }
+                    >{__('Done', 'woolook')}</button>
+                </div>
+            )
+        }
+
         return [
 
             isSelected && (
@@ -285,7 +333,7 @@ export class Edit extends Component{
                 <InspectorControls key = {'inspector'} > 
 
                     <PanelBody
-                        title={ __('Select Categories') }
+                        title={ __('Categories') }
                         initialOpen={ true }
                     >
                             
@@ -295,6 +343,8 @@ export class Edit extends Component{
                             label_search_input = { __('Search for categories to select', 'woolook') }
                             list = { cat_list } 
                             selected = { categories }
+                            max_items = {3}
+                            max_items_text = { __('Reached maximum selection.', 'woolook') }
                             onChange = { ( value = [] ) => {
                                 setAttributes( { categories: value } );
                             }}
@@ -322,7 +372,7 @@ export class Edit extends Component{
                     <PaddingMarginSettings attributes={attributes} setAttributes={setAttributes} />
 
                     <PanelBody
-                        title={ __('Background Settings') }
+                        title={ __('Background Settings', 'woolook') }
                         initialOpen={ false }
                     >
                             
@@ -373,13 +423,24 @@ export class Edit extends Component{
                         initialOpen={ false }
                     >
 
-                        <ColorControl
-                            label = { __('Title Color', 'woolook') }
-                            value = { title_color }
-                            onChange = { ( title_color = "#212121" ) => {
-                                setAttributes( { title_color } );
+                        <ToggleControl
+                            label = { __('Show/Hide Block Title', 'woolook') }
+                            help = { attributes.is_title_visible ? 'Visible' : 'Hidden' }
+                            checked={ attributes.is_title_visible }
+                            onChange = { ( value = true ) => {
+                                setAttributes( { is_title_visible: value } );
                             } }
                         />
+
+                        { attributes.is_title_visible && (
+                            <ColorControl
+                                label = { __('Block Title Color', 'woolook') }
+                                value = { title_color }
+                                onChange = { ( value = "#212121" ) => {
+                                    setAttributes( { title_color: value } );
+                                } }
+                            />
+                        )}
 
                         <ColorControl
                             label = { __('Category Title Color', 'woolook') }
@@ -448,16 +509,18 @@ export class Edit extends Component{
                     <div className = {'woolook-container'}>
 
                         <div className = {'woolook-header'} style = {{ 'text-align' : alignment }}>
-
-                            <RichText
-                                tagName = { 'h2' }
-                                className = { 'woolook-title' }
-                                value = { title }
-                                placeholder = { title }
-                                onChange = { ( newtext ) => setAttributes( { title: newtext } ) }
-                                keepPlaceholderOnFocus = { true }
-                                isSelected = { false }
-                            />
+                            
+                            {attributes.is_title_visible && (
+                                <RichText
+                                    tagName = { 'h2' }
+                                    className = { 'woolook-title' }
+                                    value = { title }
+                                    placeholder = { title }
+                                    onChange = { ( newtext ) => setAttributes( { title: newtext } ) }
+                                    keepPlaceholderOnFocus = { true }
+                                    isSelected = { false }
+                                />
+                            )}
 
                         </div>
 

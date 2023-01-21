@@ -30,6 +30,24 @@ class Block_Layout_One {
                     'type' => 'boolean',
                     'default' => false,
                 ),
+
+                'is_first_time' => array(
+                    'type' => 'boolean',
+                    'default' => true,
+                ),
+                
+                'categories' => array(
+                    'type' => 'array',
+                    'default' => array(),
+                    'items'   => [
+                        'type' => 'object',
+                    ]
+                ),
+    
+                'postsLimit' => array(
+                    'type' => 'number',
+                    'default' => 6,
+                ),
     
                 'title' => array(
                     'type' => 'string',
@@ -46,14 +64,6 @@ class Block_Layout_One {
                     'default' => 'center',
                 ),
                 
-                'categories' => array(
-                    'type' => 'array',
-                    'default' => array(),
-                    'items'   => [
-                        'type' => 'object',
-                    ]
-                ),
-    
                 'layout' => array(
                     'type' => 'number',
                     'default' => 1,
@@ -96,22 +106,22 @@ class Block_Layout_One {
 
                 'paddingTop' => array(
                     'type' => 'number',
-                    'default' => 0,
+                    'default' => 15,
                 ),
 
                 'paddingBottom' => array(
                     'type' => 'number',
-                    'default' => 0,
+                    'default' => 15,
                 ),
 
                 'paddingLeft' => array(
                     'type' => 'number',
-                    'default' => 0,
+                    'default' => 15,
                 ),
 
                 'paddingRight' => array(
                     'type' => 'number',
-                    'default' => 0,
+                    'default' => 15,
                 ),
 
                 'marginTop' => array(
@@ -121,7 +131,7 @@ class Block_Layout_One {
 
                 'marginBottom' => array(
                     'type' => 'number',
-                    'default' => 30,
+                    'default' => 0,
                 ),
 
                 'marginLeft' => array(
@@ -194,6 +204,16 @@ class Block_Layout_One {
                     'default' => 'rgba( 0, 0, 0, 0.5 )',
                 ),
 
+                'is_title_visible' => array(
+                    'type' => 'boolean',
+                    'default' => false,
+                ),
+
+                'is_subtitle_visible' => array(
+                    'type' => 'boolean',
+                    'default' => true,
+                ),
+
                 'title_color' => array(
                     'type' => 'string',
                     'default' => '#212121',
@@ -255,7 +275,7 @@ class Block_Layout_One {
     function renderItems( $attributes ){
 
         $products = new Products(array(
-            'limit' => (int)$attributes['columns'],
+            'limit' => (int)$attributes['postsLimit'],
             'categories' => $attributes['categories'] // this will be sanitized inside the Products class
         ));
 
@@ -313,13 +333,12 @@ HTML;
         $style = $this->renderStyle( $attributes );
         $items = $this->renderItems( $attributes );
         $uid = esc_attr($attributes['uid']);
-        $alignment = esc_attr($attributes['alignment']);
-        $title = esc_html( $attributes['title'] );
-        $subtitle = esc_html( $attributes['subtitle'] );
-
+    
         $columns = esc_attr($attributes['columns']);
         $tabletColumns = esc_attr($attributes['tabletColumns']);
         $mobileColumns = esc_attr($attributes['mobileColumns']);
+
+        $titles_markup = Helpers::render_block_titles($attributes);
 
         return <<<HTML
             
@@ -329,13 +348,7 @@ HTML;
 
                 <div class="woolook-container">
 
-                    <div class="woolook-header" style="text-align: {$alignment};" >
-
-                        <h2 class="woolook-title">{$title}</h2>
-
-                        <span class="woolook-subtitle">{$subtitle}</span>
-
-                    </div>
+                    {$titles_markup}
 
                     <div class="woolook-row">{$items}</div>
                     

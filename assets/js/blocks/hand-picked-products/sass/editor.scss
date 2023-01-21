@@ -1,3 +1,41 @@
 @import '_mixins';
 
 @include woolook-layout-1;
+
+.woolook-layout-1{
+
+    &[data-desktop="1"]{
+        .woolook-item{
+            flex-basis: 100%;
+            max-width: 100%;
+        }
+    }
+
+    &[data-desktop="2"]{
+        .woolook-item{
+            flex-basis: 50%;
+            max-width: 50%;
+        }
+    }
+
+    &[data-desktop="3"]{
+        .woolook-item{
+            flex-basis: 33.3332%;
+            max-width: 33.3332%;
+        }
+    }
+
+    &[data-desktop="4"]{
+        .woolook-item{
+            flex-basis: 25%;
+            max-width: 25%;
+        }
+    }
+
+    &[data-desktop="5"]{
+        .woolook-item{
+            flex-basis: 20%;
+            max-width: 20%;
+        }
+    }
+}

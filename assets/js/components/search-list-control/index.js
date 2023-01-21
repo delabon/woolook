@@ -38,11 +38,18 @@ export class SearchListControl extends Component {
      */
 	onSelect( item ) {
         
-        const { onChange, selected } = this.props;
+        const { onChange, selected, max_items, max_items_text } = this.props;
         
         if ( this.isSelected( item ) ) {
             this.onRemove( item );
             return;
+        }
+
+        if( max_items !== undefined ){
+            if( selected.length === max_items ){
+                alert( max_items_text );
+                return;
+            }
         }
 
         onChange( [ ...selected, { id: item.id, slug: item.slug, name: item.name } ] );

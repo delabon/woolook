@@ -9,6 +9,11 @@
         display: grid;
         min-height: 570px;
         grid-gap: 15px;
+        grid-template-columns: 1fr;
+    }
+
+    &[data-desktop="2"] .woolook-items{
+        min-height: 400px;
         grid-template-columns: 1fr 1fr;
 
         .woolook-item{
@@ -28,5 +33,4 @@
             }
         }
     }
-
 }

@@ -54,6 +54,16 @@ class Block_Hand_Picked_Products {
                     'default' => 'Our New Products.',
                 ),
 
+                'is_title_visible' => array(
+                    'type' => 'boolean',
+                    'default' => false,
+                ),
+
+                'is_subtitle_visible' => array(
+                    'type' => 'boolean',
+                    'default' => false,
+                ),
+
                 'alignment' => array(
                     'type' => 'string',
                     'default' => 'center',
@@ -260,8 +270,7 @@ class Block_Hand_Picked_Products {
     function renderItems( $attributes ){
 
         $products = new Products(array(
-            'limit' => (int)$attributes['columns'],
-            //'categories' => $attributes['categories'] // this will be sanitized inside the Products class
+            'products_ids' => $attributes['products'],
         ));
 
         $imagePlaceHolder = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==";
@@ -318,13 +327,12 @@ HTML;
         $style = $this->renderStyle( $attributes );
         $items = $this->renderItems( $attributes );
         $uid = esc_attr($attributes['uid']);
-        $alignment = esc_attr($attributes['alignment']);
-        $title = esc_html( $attributes['title'] );
-        $subtitle = esc_html( $attributes['subtitle'] );
 
         $columns = esc_attr($attributes['columns']);
         $tabletColumns = esc_attr($attributes['tabletColumns']);
         $mobileColumns = esc_attr($attributes['mobileColumns']);
+
+        $titles_markup = Helpers::render_block_titles($attributes);
 
         return <<<HTML
             
@@ -334,13 +342,7 @@ HTML;
 
                 <div class="woolook-container">
 
-                    <div class="woolook-header" style="text-align: {$alignment};" >
-
-                        <h2 class="woolook-title">{$title}</h2>
-
-                        <span class="woolook-subtitle">{$subtitle}</span>
-
-                    </div>
+                    {$titles_markup}
 
                     <div class="woolook-row">{$items}</div>
                     
